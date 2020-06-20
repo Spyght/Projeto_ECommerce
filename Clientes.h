@@ -2,6 +2,7 @@
 #define CLIENTES_H
 #include"transformarDados.h"
 #include<QString>
+#include<QStringList>
 namespace mrjp {
 class Clientes;
 
@@ -13,22 +14,9 @@ public:
     Clientes();
     virtual ~Clientes();
 
-    int getId() const;
-    void setId(int value);
 
-    QString getNome() const;
-    void setNome(const QString &value);
 
-    QString getEndereco() const;
-    void setEndereco(const QString &value);
-
-    unsigned int getTelefone() const;
-    void setTelefone(unsigned int value);
-
-    unsigned int getCpf() const;
-    void setCpf(unsigned int value);
-
-    virtual void montar() override;
+    virtual void montar(QString entrada) override;
     virtual void desmontar() override;
 
 private:
