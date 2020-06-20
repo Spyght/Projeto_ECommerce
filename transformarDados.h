@@ -1,5 +1,6 @@
 #ifndef TRANSFORMARDADOS_H
 #define TRANSFORMARDADOS_H
+#include<fstream>
 namespace mrjp {
 class transformarDados;
 }
