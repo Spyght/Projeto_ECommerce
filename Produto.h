@@ -3,13 +3,14 @@
 #include"transformarDados.h"
 #include <QString>
 
-class Produto  :public transformarDados
+namespace mrjp {
+
+class Produto  :public TransformarDados
 {
 public:
     Produto();
-    virtual void montar() override;
-    virtual void desmontar() override;
-
+    virtual Produto* montar(std::string linha);
+    virtual std::string desmontar(QString);
 
     unsigned int getCodigo() const;
     void setCodigo(unsigned int value);
@@ -29,5 +30,7 @@ private:
     unsigned int quantidade;
     float precoUnitario;
 };
+
+}
 
 #endif // PRODUTO_H

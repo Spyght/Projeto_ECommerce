@@ -1,18 +1,16 @@
-#include "Clientes.h"
+#include "clientes.h"
 
 namespace mrjp {
-class Clientes;
 
-}
 Clientes::Clientes()
 {
 
 }
-
-
 
 void Clientes::montar(QString entrada)
 {
     QStri
 
 }
+
+} // namespace mrjp

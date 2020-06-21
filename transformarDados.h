@@ -1,16 +1,16 @@
 #ifndef TRANSFORMARDADOS_H
 #define TRANSFORMARDADOS_H
-#include<fstream>
-namespace mrjp {
-class transformarDados;
-}
+#include<QString>
 
-class transformarDados
+namespace mrjp {
+
+class TransformarDados
 {
 public:
-   transformarDados();
-   virtual void montar() = 0;
-   virtual void desmontar() = 0;
+   virtual TransformarDados* montar(std::string) = 0;
+   virtual std::string desmontar(QString) = 0;
 };
+
+}
 
 #endif // TRANSFORMARDADOS_H
