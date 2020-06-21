@@ -26,7 +26,7 @@ void crudClientes::criarLista()
     //abrir aquivo
 
     std::ifstream arquivo;
-    arquivo.open(nomeArquivoDisco.toStdString().c_str(),std::ios::in);
+    arquivo.open(nomeArquivoDisco.toStdString().c_str());
 
     if(! arquivo.is_open())
         throw QString ("Arquivo nao aberto");
@@ -55,7 +55,7 @@ void crudClientes::inserirLista(Clientes *cliente)
 unsigned int crudClientes::gerarID()
 {
     for(int i = 0; i <getpCliente()->getQuantidade();i++){
-        if(getpCliente()->operator[](i)->getCodigoCliente() != i)
+        if(getpCliente()->operator[](i + 1)->getCodigoCliente() != i)
             return i;
 
     }

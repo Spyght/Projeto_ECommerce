@@ -13,7 +13,7 @@ class No
     No * anterior;
     T dado;
     No * proximo;
-    No(T dado):anterior(proximo),dado(dado),proximo(anterior){}
+    No(T dado):anterior(nullptr),dado(dado),proximo(nullptr){}
     No *getAnterior() const {return anterior;}
     void setAnterior(No * value){anterior = value;}
     T getDado() const {return dado;}
