@@ -1,5 +1,7 @@
 #include "Produto.h"
+
 namespace mrjp {
+
 Produto::Produto()
 {
 
@@ -44,4 +46,13 @@ void Produto::setPrecoUnitario(float value)
 {
     precoUnitario = value;
 }
+
+Produto::Produto(unsigned int cod, QString desc, unsigned int qtde, float precoUn)
+{
+    codigo = cod;
+    descricao = desc;
+    quantidade = qtde;
+    precoUnitario = precoUn;
+}
+
 }

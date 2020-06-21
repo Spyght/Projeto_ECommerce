@@ -18,21 +18,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     Produto.cpp \
     Venda.cpp \
-    clientes.cpp \
+    cliente.cpp \
     crud.cpp \
+    crudprodutos.cpp \
     main.cpp \
-    mainwindow.cpp \
-    transformarDados.cpp
+    mainwindow.cpp
 
 HEADERS += \
     Produto.h \
     Venda.h \
-    clientes.h \
+    cliente.h \
     crud.h \
+    crudprodutos.h \
     ldec.h \
     mainwindow.h \
-    no.h \
-    transformarDados.h
+    no.h
 
 FORMS += \
     mainwindow.ui
