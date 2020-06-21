@@ -1,16 +1,14 @@
 #ifndef PRODUTO_H
 #define PRODUTO_H
-#include"transformarDados.h"
 #include <QString>
 
 namespace mrjp {
 
-class Produto  :public TransformarDados
+class Produto
 {
 public:
     Produto();
-    virtual Produto* montar(std::string linha);
-    virtual std::string desmontar(QString);
+    Produto(unsigned int codigo, QString descricao, unsigned int quantidade, float precoUnitario);
 
     unsigned int getCodigo() const;
     void setCodigo(unsigned int value);

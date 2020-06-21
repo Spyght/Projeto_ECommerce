@@ -1,20 +1,19 @@
 #ifndef MRJP_CLIENTES_H
 #define MRJP_CLIENTES_H
-#include"transformarDados.h"
 #include<QString>
 #include<QStringList>
 
 
 namespace mrjp {
 
-class Clientes : public TransformarDados
+class Clientes
 {
 public:
     Clientes(QString nome,QString endereço,unsigned int telefone, unsigned int cpf);
     virtual ~Clientes();
 
-    virtual Clientes* montar(std::string entrada) override;
-    virtual std::string desmontar(QString) override;
+//    virtual Clientes* montar(std::string entrada) override;
+//    virtual std::string desmontar(QString) override;
 
     void setTelefone(unsigned int value);
 
