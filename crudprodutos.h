@@ -2,6 +2,7 @@
 #define MRJP_CRUDPRODUTOS_H
 #include<crud.h>
 #include<Produto.h>
+#include<fstream>
 
 
 namespace mrjp {
@@ -9,12 +10,15 @@ namespace mrjp {
 class CRUDProdutos : public CRUD
 {
     QString nomeDoArquivoNoDisco;
-    jose::LDEC<Produto *> * listaDeProdutos;
+    jose::LDEC<Produto *> * pEstoque;
 public:
-    CRUDProdutos();
+    CRUDProdutos(QString nomeDoArquivoNoDisco);
     virtual void criarLista() override;
     virtual Produto* montar(std::string);
     virtual std::string desmontar(QString);
+
+    jose::LDEC<Produto *> *getPEstoque() const;
+    void setPEstoque(jose::LDEC<Produto *> *value);
 };
 
 } // namespace mrjp

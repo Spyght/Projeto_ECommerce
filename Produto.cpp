@@ -35,6 +35,7 @@ unsigned int Produto::getQuantidade() const
 void Produto::setQuantidade(unsigned int value)
 {
     quantidade = value;
+    precoTotal = (double)value * getPrecoUnitario();
 }
 
 float Produto::getPrecoUnitario() const
@@ -45,6 +46,12 @@ float Produto::getPrecoUnitario() const
 void Produto::setPrecoUnitario(float value)
 {
     precoUnitario = value;
+    precoTotal = (double)value * getQuantidade();
+}
+
+double Produto::getPrecoTotal() const
+{
+    return precoTotal;
 }
 
 Produto::Produto(unsigned int cod, QString desc, unsigned int qtde, float precoUn)
