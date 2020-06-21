@@ -26,7 +26,7 @@ void crudClientes::criarLista()
     //abrir aquivo
 
     std::ifstream arquivo;
-    arquivo.open(nomeArquivoDisco.toStdString().c_str());
+    arquivo.open(nomeArquivoDisco.toStdString().c_str(),std::ios::in);
 
     if(! arquivo.is_open())
         throw QString ("Arquivo nao aberto");

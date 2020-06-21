@@ -6,18 +6,21 @@
 
 namespace mrjp {
 
-class crudVenda
+class crudVenda : public CRUD
 {
 public:
-    QString nomeArquivoDisc;
+    QString nomeArquivoDiscVenda;
     jose::LDEC<Venda *> * pVenda;
 public:
     crudVenda();
     crudVenda(QString nomeArquivoDisc);
     virtual void criarLista(); // revisar override
-    virtual Venda * montar(std::string);
+    virtual Venda * montar(std::string linha);
     virtual std::string desmontar(QString);
     void inserirLista(Venda *pVenda);
+
+    jose::LDEC<Venda *> *getpVenda()const;
+    void setPVenda(jose::LDEC<Produto* > * value);
 
 };
 
