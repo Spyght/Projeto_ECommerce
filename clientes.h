@@ -10,11 +10,19 @@ namespace mrjp {
 class Clientes : public TransformarDados
 {
 public:
-    Clientes();
+    Clientes(QString nome,QString endereço,unsigned int telefone, unsigned int cpf);
     virtual ~Clientes();
 
     virtual Clientes* montar(std::string entrada) override;
     virtual std::string desmontar(QString) override;
+
+    void setTelefone(unsigned int value);
+
+    void setNome(const QString &value);
+
+    void setEndereco(const QString &value);
+
+    void setCpf(unsigned int value);
 
 private:
     int id;

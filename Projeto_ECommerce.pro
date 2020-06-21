@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     Produto.cpp \
+    Venda.cpp \
     clientes.cpp \
     crud.cpp \
     main.cpp \
@@ -25,9 +26,12 @@ SOURCES += \
 
 HEADERS += \
     Produto.h \
+    Venda.h \
     clientes.h \
     crud.h \
+    ldec.h \
     mainwindow.h \
+    no.h \
     transformarDados.h
 
 FORMS += \

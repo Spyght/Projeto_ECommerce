@@ -1,5 +1,5 @@
 #include "Produto.h"
-
+namespace mrjp {
 Produto::Produto()
 {
 
@@ -43,4 +43,5 @@ float Produto::getPrecoUnitario() const
 void Produto::setPrecoUnitario(float value)
 {
     precoUnitario = value;
+}
 }
