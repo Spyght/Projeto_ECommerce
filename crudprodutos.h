@@ -16,7 +16,10 @@ public:
     virtual void criarLista() override;
     virtual Produto* montar(std::string linha);
     virtual std::string desmontar(QString);
-    void inserirNaLista(Produto *pProduto);
+
+    void inserirNovoElemento(Produto *pProduto);
+    int excluirElemento(unsigned int codigoDoProduto);
+
     unsigned int gerarID();
 
     jose::LDEC<Produto *> *getPEstoque() const;

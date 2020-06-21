@@ -12,7 +12,6 @@ public:
     jose::LDEC<Clientes *> * pCliente;
 
 public:
-
     crudClientes(QString nomeArquivoDisco);
     virtual void criarLista() override;
     virtual Clientes * montar(std::string linha);

@@ -71,7 +71,12 @@ void Venda::setValorTotalDaCompra()
 
 QString Venda::print() const
 {
-    return (QString::number(idPedido) + QString::number(idCliente) + QString::( + QString::number(valorTotalDaCompra));
+    QString strPrint = QString::number(idPedido) + "\n" + QString::number(idCliente) + "\n" + QString::number(valorTotalDaCompra) + "\n";
+
+    for(int i = 0; i < getPListaDeProdutos()->getQuantidade(); i++)
+        strPrint += getPListaDeProdutos()->operator[](i)->print();
+
+    return strPrint;
 }
 
 } // namespace mrjp
