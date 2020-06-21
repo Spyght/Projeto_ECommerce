@@ -42,7 +42,7 @@ void CRUDProdutos::criarLista()
     std::string linha;
     while(!arquivo.eof()){
         getline(arquivo,linha);
-        getPEstoque()->inserirOrdemCrescente(montar(linha));
+        getPEstoque()->inserirFim(montar(linha));
     }
     arquivo.close();
 }
@@ -52,6 +52,21 @@ Produto *CRUDProdutos::montar(std::string linha)
     QStringList list = QString::fromStdString(linha).split(';');
     Produto * pProduto = new Produto(list[0].toUInt(),list[1],list[2].toUInt(),list[3].toFloat());
     return pProduto;
+}
+
+void CRUDProdutos::inserirNaLista(Produto *pProduto)
+{
+    getPEstoque()->inserirFim(pProduto);
+
+}
+
+unsigned int CRUDProdutos::gerarID()
+{
+    unsigned int i = 0;
+    for(; i < getPEstoque()->getQuantidade(); i++)
+        if(getPEstoque()->operator[](i)->getCodigo() != i)
+            return i;
+    return i;
 }
 
 } // namespace mrjp

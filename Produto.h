@@ -24,6 +24,8 @@ public:
 
     double getPrecoTotal() const;
 
+    QString print() const;
+
 private:
     unsigned int codigo;
     QString descricao;
