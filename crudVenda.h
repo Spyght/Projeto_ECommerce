@@ -12,7 +12,7 @@ public:
     QString nomeArquivoDisc;
     jose::LDEC<Venda *> * pVenda;
 public:
-
+    crudVenda();
     crudVenda(QString nomeArquivoDisc);
     virtual void criarLista(); // revisar override
     virtual Venda * montar(std::string);
