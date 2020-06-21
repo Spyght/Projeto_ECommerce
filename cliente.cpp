@@ -2,12 +2,13 @@
 
 namespace mrjp {
 
-Clientes::Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf)
+Clientes::Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf,unsigned int id)
 {
     setNome(nome);
     setEndereco(endereco);
     setTelefone(telefone);
     setCpf(cpf);
+    setCodigoCliente(id);
 
 }
 
@@ -42,10 +43,25 @@ void Clientes::setCpf(unsigned int value)
     cpf = value;
 }
 
-void Clientes::montar(QString entrada)
+QString Clientes::print()const
 {
-
-
+    return (nome + endereco + QString::number(telefone) + QString::number(cpf));
 }
+
+unsigned int Clientes::getCodigoCliente() const
+{
+    return codigoCliente;
+}
+
+void Clientes::setCodigoCliente(unsigned int value)
+{
+    codigoCliente = value;
+}
+
+
+//void Clientes::montar(QString entrada)
+
+
+
 
 } // namespace mrjp

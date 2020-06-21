@@ -9,7 +9,7 @@ namespace mrjp {
 class Clientes
 {
 public:
-    Clientes(QString nome,QString endereço,unsigned int telefone, unsigned int cpf);
+    Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf,unsigned int id);
     virtual ~Clientes();
 
 //    virtual Clientes* montar(std::string entrada) override;
@@ -23,6 +23,12 @@ public:
 
     void setCpf(unsigned int value);
 
+    QString print ()const;
+
+
+    unsigned int getCodigoCliente() const;
+    void setCodigoCliente(unsigned int value);
+
 private:
     int id;
 
@@ -30,6 +36,7 @@ private:
     QString endereco;
     unsigned int telefone;
     unsigned int cpf;
+    unsigned int codigoCliente;
 
 };
 

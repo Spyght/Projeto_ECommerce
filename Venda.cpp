@@ -69,4 +69,9 @@ void Venda::setValorTotalDaCompra()
     valorTotalDaCompra = aux;
 }
 
+QString Venda::print() const
+{
+    return (QString::number(idPedido) + QString::number(idCliente) + QString::number(dataCompra) + QString::number(valorTotalDaCompra));
+}
+
 } // namespace mrjp

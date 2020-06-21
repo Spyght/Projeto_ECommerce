@@ -20,6 +20,7 @@ SOURCES += \
     Venda.cpp \
     cliente.cpp \
     crud.cpp \
+    crudClientes.cpp \
     crudprodutos.cpp \
     main.cpp \
     mainwindow.cpp
@@ -29,6 +30,7 @@ HEADERS += \
     Venda.h \
     cliente.h \
     crud.h \
+    crudClientes.h \
     crudprodutos.h \
     ldec.h \
     mainwindow.h \

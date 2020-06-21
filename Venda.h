@@ -26,6 +26,7 @@ public:
     double getValorTotalDaCompra();
     void setValorTotalDaCompra();
 
+    QString print()const;
 
 private:
     unsigned int idPedido;

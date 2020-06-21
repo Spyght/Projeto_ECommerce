@@ -14,7 +14,7 @@ class CRUDProdutos : public CRUD
 public:
     CRUDProdutos(QString nomeDoArquivoNoDisco);
     virtual void criarLista() override;
-    virtual Produto* montar(std::string);
+    virtual Produto* montar(std::string linha);
     virtual std::string desmontar(QString);
     void inserirNaLista(Produto *pProduto);
     unsigned int gerarID();
