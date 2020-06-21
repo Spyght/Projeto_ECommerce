@@ -54,6 +54,12 @@ double Produto::getPrecoTotal() const
     return precoTotal;
 }
 
+QString Produto::print() const
+{
+    return QString::number(getCodigo()) + getDescricao() + QString::number(getQuantidade()) + QString::number(getPrecoUnitario());
+
+}
+
 Produto::Produto(unsigned int cod, QString desc, unsigned int qtde, float precoUn)
 {
     codigo = cod;
