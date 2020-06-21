@@ -65,7 +65,7 @@ void Venda::setValorTotalDaCompra()
 {
     double aux = 0;
     for(int i = 0; i < getPListaDeProdutos()->getQuantidade(); i++){
-        aux += getPListaDeProdutos()->operator[](i)->getPrecoTotal();
+        aux += getPListaDeProdutos()->operator[](i + 1)->getPrecoTotal();
     }
     valorTotalDaCompra = aux;
 }
@@ -75,7 +75,7 @@ QString Venda::print() const
     QString strPrint = QString::number(idPedido) + "\n" + QString::number(idCliente) + "\n" + QString::number(valorTotalDaCompra) + "\n";
 
     for(int i = 0; i < getPListaDeProdutos()->getQuantidade(); i++)
-        strPrint += getPListaDeProdutos()->operator[](i)->print();
+        strPrint += getPListaDeProdutos()->operator[](i + 1)->print();
 
     return strPrint;
 }

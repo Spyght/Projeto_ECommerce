@@ -8,7 +8,7 @@ class Produto
 {
 public:
     Produto();
-    Produto(unsigned int codigo, QString descricao, unsigned int quantidade, float precoUnitario);
+    Produto(QString descricao, unsigned int quantidade, float precoUnitario);
 
     unsigned int getCodigo() const;
     void setCodigo(unsigned int value);

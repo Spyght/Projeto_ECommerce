@@ -19,11 +19,12 @@ public:
 
     void inserirNovoElemento(Produto *pProduto);
     int excluirElemento(unsigned int codigoDoProduto);
+    void atualizarElemento(Produto *pProdutoExistente);
 
     unsigned int gerarID();
 
     jose::LDEC<Produto *> *getPEstoque() const;
-    void setPEstoque(jose::LDEC<Produto *> *value);
+//    void setPEstoque(jose::LDEC<Produto *> *value);
 };
 
 } // namespace mrjp

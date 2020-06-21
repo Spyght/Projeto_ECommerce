@@ -59,9 +59,8 @@ QString Produto::print() const
     return QString::number(getCodigo()) + "\n" + getDescricao() + "\n" + QString::number(getQuantidade()) + "\n" + QString::number(getPrecoUnitario());
 }
 
-Produto::Produto(unsigned int cod, QString desc, unsigned int qtde, float precoUn)
+Produto::Produto(QString desc, unsigned int qtde, float precoUn)
 {
-    codigo = cod;
     descricao = desc;
     quantidade = qtde;
     precoUnitario = precoUn;

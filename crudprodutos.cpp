@@ -7,10 +7,10 @@ jose::LDEC<Produto *> *CRUDProdutos::getPEstoque() const
     return pEstoque;
 }
 
-void CRUDProdutos::setPEstoque(jose::LDEC<Produto *> *value)
-{
-    pEstoque = value;
-}
+//void CRUDProdutos::setPEstoque(jose::LDEC<Produto *> *value)
+//{
+//    pEstoque = value;
+//}
 
 CRUDProdutos::CRUDProdutos(QString nomeDoArquivoNoDisco):nomeDoArquivoNoDisco(nomeDoArquivoNoDisco)
 {
@@ -50,7 +50,7 @@ void CRUDProdutos::criarLista()
 Produto *CRUDProdutos::montar(std::string linha)
 {
     QStringList list = QString::fromStdString(linha).split(';');
-    Produto * pProduto = new Produto(list[0].toUInt(),list[1],list[2].toUInt(),list[3].toFloat());
+    Produto * pProduto = new Produto(list[1],list[2].toUInt(),list[3].toFloat());
     return pProduto;
 }
 
@@ -66,6 +66,8 @@ std::string CRUDProdutos::desmontar(QString print)
 
 void CRUDProdutos::inserirNovoElemento(Produto *pProduto)
 {
+    pProduto->setCodigo(gerarID()); //revisao: se colocar um if podemos usar esse metodo no metodo atualizar
+
     std::ofstream arquivo;
     arquivo.open(nomeDoArquivoNoDisco.toStdString().c_str(), std::ios::out | std::ios::app);
     if(!arquivo.is_open())
@@ -111,6 +113,29 @@ int CRUDProdutos::excluirElemento(unsigned int codProduto)
             return 0;
         }
     return -1;
+}
+
+void CRUDProdutos::atualizarElemento(Produto *pProdutoExistente)
+{
+    for(int i = 0; i < pEstoque->getQuantidade(); i++)
+    {
+        if(pProdutoExistente->getCodigo() == pEstoque->operator[](i + 1)->getCodigo()){
+            excluirElemento(pProdutoExistente->getCodigo());
+
+            std::ofstream arquivo;
+            arquivo.open(nomeDoArquivoNoDisco.toStdString().c_str(), std::ios::out | std::ios::app);
+            if(!arquivo.is_open())
+                throw QString("Erro ao abrir arquivo de produtos - Metodo inserir");
+
+            arquivo << desmontar(pProdutoExistente->print());
+            arquivo.close();
+
+            getPEstoque()->inserirFim(pProdutoExistente);
+            break;
+        }
+        if(i == pEstoque->getQuantidade() - 1)
+            inserirNovoElemento(pProdutoExistente); //se nao existir nenhum elemento igual, cria um novo
+    }
 }
 
 unsigned int CRUDProdutos::gerarID()
