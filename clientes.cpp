@@ -44,7 +44,7 @@ void Clientes::setCpf(unsigned int value)
 
 void Clientes::montar(QString entrada)
 {
-    QStri
+
 
 }
 

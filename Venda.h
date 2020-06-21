@@ -20,6 +20,7 @@ public:
 
     float calcularValorTotalCompra();
 
+
 private:
     unsigned int idPedido;
     unsigned int idCliente;
