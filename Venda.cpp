@@ -13,6 +13,7 @@ Venda::Venda(unsigned int idPedido, unsigned int idCliente, QDate dataCompra)
     setIdPedido(idPedido);
     setIdCliente(idCliente);
     setDataCompra(dataCompra);
+
 }
 
 unsigned int Venda::getIdPedido() const

@@ -40,3 +40,6 @@ private:
 } // namespace mrjp
 
 #endif // MRJP_VENDA_H
+
+
+//QDate a = QDate::currentDate();
