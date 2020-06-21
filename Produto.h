@@ -22,11 +22,14 @@ public:
     float getPrecoUnitario() const;
     void setPrecoUnitario(float value);
 
+    double getPrecoTotal() const;
+
 private:
     unsigned int codigo;
     QString descricao;
     unsigned int quantidade;
     float precoUnitario;
+    double precoTotal;
 };
 
 }

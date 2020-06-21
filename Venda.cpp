@@ -2,9 +2,17 @@
 
 namespace mrjp {
 
-Venda::Venda()
+Venda::Venda():
+    valorTotalDaCompra(0)
 {
 
+}
+
+Venda::Venda(unsigned int idPedido, unsigned int idCliente, unsigned int dataCompra)
+{
+    setIdPedido(idPedido);
+    setIdCliente(idCliente);
+    setDataCompra(dataCompra);
 }
 
 unsigned int Venda::getIdPedido() const
@@ -37,9 +45,28 @@ void Venda::setDataCompra(unsigned int value)
     dataCompra = value;
 }
 
-float Venda::calcularValorTotalCompra()
+jose::LDEC<Produto *> *Venda::getPListaDeProdutos() const
 {
+    return pListaDeProdutos;
+}
 
+void Venda::setPListaDeProdutos(jose::LDEC<Produto *> *value)
+{
+    pListaDeProdutos = value;
+}
+
+double Venda::getValorTotalDaCompra()
+{
+    return valorTotalDaCompra;
+}
+
+void Venda::setValorTotalDaCompra()
+{
+    double aux = 0;
+    for(int i = 0; i < getPListaDeProdutos()->getQuantidade(); i++){
+        aux += getPListaDeProdutos()->operator[](i)->getPrecoTotal();
+    }
+    valorTotalDaCompra = aux;
 }
 
 } // namespace mrjp
