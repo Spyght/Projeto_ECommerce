@@ -2,13 +2,13 @@
 
 namespace mrjp {
 
-Clientes::Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf,unsigned int id)
+Clientes::Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf)
 {
     setNome(nome);
     setEndereco(endereco);
     setTelefone(telefone);
     setCpf(cpf);
-    setCodigoCliente(id);
+
 
 }
 

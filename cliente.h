@@ -9,7 +9,7 @@ namespace mrjp {
 class Clientes
 {
 public:
-    Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf,unsigned int id);
+    Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf);
     virtual ~Clientes();
 
 //    virtual Clientes* montar(std::string entrada) override;
