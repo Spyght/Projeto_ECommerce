@@ -8,7 +8,7 @@ Venda::Venda():
 
 }
 
-Venda::Venda(unsigned int idPedido, unsigned int idCliente, unsigned int dataCompra)
+Venda::Venda(unsigned int idPedido, unsigned int idCliente, QDate dataCompra)
 {
     setIdPedido(idPedido);
     setIdCliente(idCliente);
@@ -35,12 +35,12 @@ void Venda::setIdCliente(unsigned int value)
     idCliente = value;
 }
 
-unsigned int Venda::getDataCompra() const
+QDate Venda::getDataCompra() const
 {
     return dataCompra;
 }
 
-void Venda::setDataCompra(unsigned int value)
+void Venda::setDataCompra(QDate value)
 {
     dataCompra = value;
 }
@@ -71,7 +71,7 @@ void Venda::setValorTotalDaCompra()
 
 QString Venda::print() const
 {
-    return (QString::number(idPedido) + QString::number(idCliente) + QString::number(dataCompra) + QString::number(valorTotalDaCompra));
+    return (QString::number(idPedido) + QString::number(idCliente) + QString::( + QString::number(valorTotalDaCompra));
 }
 
 } // namespace mrjp

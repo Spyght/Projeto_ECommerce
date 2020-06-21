@@ -3,6 +3,7 @@
 #include<QString>
 #include<ldec.h>
 #include "Produto.h"
+#include<QDate>
 
 namespace mrjp {
 
@@ -10,15 +11,15 @@ class Venda
 {
 public:
     Venda();
-    Venda(unsigned int idPedido, unsigned int idCliente, unsigned int dataCompra);
+    Venda(unsigned int idPedido, unsigned int idCliente, QDate dataCompra);
     unsigned int getIdPedido() const;
     void setIdPedido(unsigned int value);
 
     unsigned int getIdCliente() const;
     void setIdCliente(unsigned int value);
 
-    unsigned int getDataCompra() const;
-    void setDataCompra(unsigned int value);
+    QDate getDataCompra() const;
+    void setDataCompra(QDate value);
 
     jose::LDEC<Produto *> *getPListaDeProdutos() const;
     void setPListaDeProdutos(jose::LDEC<Produto *> *value);
@@ -31,7 +32,7 @@ public:
 private:
     unsigned int idPedido;
     unsigned int idCliente;
-    unsigned int dataCompra;
+    QDate dataCompra;
     double valorTotalDaCompra;
     jose::LDEC<Produto*> * pListaDeProdutos;
 };
