@@ -14,7 +14,7 @@ jose::LDEC<Produto *> *CRUDProdutos::getPEstoque() const
 
 CRUDProdutos::CRUDProdutos(QString nomeDoArquivoNoDisco):nomeDoArquivoNoDisco(nomeDoArquivoNoDisco)
 {
-   std::ifstream arquivo;
+    std::ifstream arquivo;
     arquivo.open(nomeDoArquivoNoDisco.toStdString().c_str());
 
     if(!arquivo.is_open()){
@@ -40,9 +40,14 @@ void CRUDProdutos::criarLista()
         throw QString("Arquivo de produtos nao foi aberto");
 
     std::string linha;
-    while(!arquivo.eof()){
-        getline(arquivo,linha);
-        getPEstoque()->inserirFim(montar(linha));
+//    while(!arquivo.eof()){
+//        getline(arquivo,linha);
+//        if(linha != "")
+//            getPEstoque()->inserirFim(montar(linha));
+//    }
+    while(getline(arquivo,linha)){
+        if(linha != "")
+            getPEstoque()->inserirFim(montar(linha));
     }
     arquivo.close();
 }
@@ -51,6 +56,8 @@ Produto *CRUDProdutos::montar(std::string linha)
 {
     QStringList list = QString::fromStdString(linha).split(';');
     Produto * pProduto = new Produto(list[1],list[2].toUInt(),list[3].toFloat());
+    pProduto->setCodigo(list[0].toUInt());
+
     return pProduto;
 }
 
@@ -65,7 +72,7 @@ std::string CRUDProdutos::desmontar(QString print)
 }
 
 void CRUDProdutos::inserirNovoElemento(Produto *pProduto)
-{
+{    
     pProduto->setCodigo(gerarID()); //revisao: se colocar um if podemos usar esse metodo no metodo atualizar
 
     std::ofstream arquivo;
@@ -73,7 +80,10 @@ void CRUDProdutos::inserirNovoElemento(Produto *pProduto)
     if(!arquivo.is_open())
         throw QString("Erro ao abrir arquivo de produtos - Metodo inserir");
 
-    arquivo << desmontar(pProduto->print());
+//    if(pEstoque->getQuantidade() == 0)
+//        arquivo << desmontar(pProduto->print());
+//    else
+    arquivo << desmontar(pProduto->print()) << "\n";
     arquivo.close();
 
     getPEstoque()->inserirFim(pProduto);
@@ -98,9 +108,7 @@ int CRUDProdutos::excluirElemento(unsigned int codProduto)
             std::string linha;
 
             while(getline(arquivo, linha))
-                if(QString::fromStdString(linha) == pEstoque->operator[](i + 1)->print())
-                    continue;
-                else
+                if(linha != desmontar(pEstoque->operator[](i + 1)->print()) && linha != "")
                     arqTemp << linha + "\n";
             //fecha os arquivos
             arquivo.close();
@@ -115,19 +123,21 @@ int CRUDProdutos::excluirElemento(unsigned int codProduto)
     return -1;
 }
 
-void CRUDProdutos::atualizarElemento(Produto *pProdutoExistente)
+void CRUDProdutos::atualizarElemento(Produto *pProdutoExistente, unsigned int cod)
 {
+    pProdutoExistente->setCodigo(cod);
+
     for(int i = 0; i < pEstoque->getQuantidade(); i++)
     {
-        if(pProdutoExistente->getCodigo() == pEstoque->operator[](i + 1)->getCodigo()){
-            excluirElemento(pProdutoExistente->getCodigo());
+        if(cod == pEstoque->operator[](i + 1)->getCodigo()){
+            excluirElemento(cod);
 
             std::ofstream arquivo;
             arquivo.open(nomeDoArquivoNoDisco.toStdString().c_str(), std::ios::out | std::ios::app);
             if(!arquivo.is_open())
                 throw QString("Erro ao abrir arquivo de produtos - Metodo inserir");
 
-            arquivo << desmontar(pProdutoExistente->print());
+            arquivo << desmontar(pProdutoExistente->print()) << "\n";
             arquivo.close();
 
             getPEstoque()->inserirFim(pProdutoExistente);
@@ -140,10 +150,19 @@ void CRUDProdutos::atualizarElemento(Produto *pProdutoExistente)
 
 unsigned int CRUDProdutos::gerarID()
 {
-    unsigned int i = 0;
-    for(; i < getPEstoque()->getQuantidade(); i++)
-        if(getPEstoque()->operator[](i + 1)->getCodigo() != i)
-            return i;
+    int i = 0;
+    for(; i < getPEstoque()->getQuantidade(); i++){
+        for(int j = 0; j < getPEstoque()->getQuantidade(); j++){
+            if(getPEstoque()->operator[](j + 1)->getCodigo() == unsigned(i)){
+                break;
+            }
+            else{
+                if (j == getPEstoque()->getQuantidade() - 1){
+                    return i;
+                }
+            }
+        }
+    }
     return i;
 }
 

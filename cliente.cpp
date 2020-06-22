@@ -1,67 +1,85 @@
-#include "cliente.h"
+//#include "cliente.h"
 
-namespace mrjp {
+//namespace mrjp {
 
-Clientes::Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf,unsigned int id)
-{
-    setNome(nome);
-    setEndereco(endereco);
-    setTelefone(telefone);
-    setCpf(cpf);
-    setCodigoCliente(id);
+//Clientes::Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf)
+//{
+//    setNome(nome);
+//    setEndereco(endereco);
+//    setTelefone(telefone);
+//    setCpf(cpf);
+//}
 
-}
+//void Clientes::setTelefone(unsigned int value)
+//{
+//    // verificando a validade do telefone.
+//    QString verificador = QString::number( value);
+//    if( verificador.length() >8 || verificador.length() < 9 ){
+//        throw "Numero invalido";
+//    }else
+//       telefone = value;
+//}
 
-void Clientes::setTelefone(unsigned int value)
-{
-    // verificando a validade do telefone.
-    QString verificador = QString::number( value);
-    if( verificador.length() >8 || verificador.length() < 9 ){
-        throw "Numero invalido";
-    }else
-       telefone = value;
-}
+//void Clientes::setNome(const QString &value)
+//{
+//    if(value != "")
+//        nome = value;
+//    else
+//        throw "Nome invalido !";
+//}
 
-void Clientes::setNome(const QString &value)
-{
-    if(value != "")
-        nome = value;
-    else
-        throw "Nome invalido !";
-}
+//void Clientes::setEndereco(const QString &value)
+//{
+//    if(value != "")
+//      endereco = value;
+//    else
+//        throw "Endereço invalido !";
+//}
 
-void Clientes::setEndereco(const QString &value)
-{
-    if(value != "")
-      endereco = value;
-    else
-        throw "Endereço invalido !";
-}
+//void Clientes::setCpf(unsigned int value)
+//{
+//    cpf = value;
+//}
 
-void Clientes::setCpf(unsigned int value)
-{
-    cpf = value;
-}
+//QString Clientes::print()const
+//{
+//    return QString::number(getCodigoCliente()) + "\n" + getNome() + "\n" + getEndereco() + "\n" + QString::number(getTelefone()) + "\n" + QString::number(getCpf());
+//}
 
-QString Clientes::print()const
-{
-    return (nome + endereco + QString::number(telefone) + QString::number(cpf));
-}
+//unsigned int Clientes::getCodigoCliente() const
+//{
+//    return codigoCliente;
+//}
 
-unsigned int Clientes::getCodigoCliente() const
-{
-    return codigoCliente;
-}
+//void Clientes::setCodigoCliente(unsigned int value)
+//{
+//    codigoCliente = value;
+//}
 
-void Clientes::setCodigoCliente(unsigned int value)
-{
-    codigoCliente = value;
-}
+//QString Clientes::getNome() const
+//{
+//    return nome;
+//}
+
+//QString Clientes::getEndereco() const
+//{
+//    return endereco;
+//}
+
+//unsigned int Clientes::getTelefone() const
+//{
+//    return telefone;
+//}
+
+//unsigned int Clientes::getCpf() const
+//{
+//    return cpf;
+//}
 
 
-//void Clientes::montar(QString entrada)
+////void Clientes::montar(QString entrada)
 
 
 
 
-} // namespace mrjp
+//} // namespace mrjp

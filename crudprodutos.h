@@ -1,9 +1,7 @@
 #ifndef MRJP_CRUDPRODUTOS_H
 #define MRJP_CRUDPRODUTOS_H
-//#include<crud.h>
-#include<QStringList> //
-#include<ldec.h> //
-
+#include<ldec.h>
+#include<QStringList>
 #include<Produto.h>
 #include<fstream>
 
@@ -22,7 +20,7 @@ public:
 
     void inserirNovoElemento(Produto *pProduto);
     int excluirElemento(unsigned int codigoDoProduto);
-    void atualizarElemento(Produto *pProdutoExistente);
+    void atualizarElemento(Produto *pProdutoExistente, unsigned int Codigo);
 
     unsigned int gerarID();
 
