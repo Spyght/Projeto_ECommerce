@@ -41,7 +41,7 @@ Venda *crudVenda::montar(std::string linha)
 {
     QStringList list = QString::fromStdString(linha).split(';');
     QDate
-    Venda * pVenda = new Venda(list[0].toUInt(),list[1].toUInt(),);
+    Venda *pVenda = new Venda(list[0].toUInt(),list[1].toUInt());
 }
 
 

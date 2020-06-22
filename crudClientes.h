@@ -15,8 +15,11 @@ public:
     crudClientes(QString nomeArquivoDisco);
     virtual void criarLista() override;
     virtual Clientes * montar(std::string linha);
-    virtual std::string desmontar(QString);
+    virtual std::string desmontar(QString print);
+
     void inserirLista(Clientes *cliente);
+    int excluirCliente(unsigned int codigoCliente);
+    void atualizarCliente(Clientes * clienteExistente);
     unsigned int gerarID();
 
     jose::LDEC<Clientes *> *getpCliente()const;
