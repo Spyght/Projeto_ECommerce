@@ -1,21 +1,24 @@
 #ifndef MRJP_CRUDPRODUTOS_H
 #define MRJP_CRUDPRODUTOS_H
-#include<crud.h>
+//#include<crud.h>
+#include<QStringList> //
+#include<ldec.h> //
+
 #include<Produto.h>
 #include<fstream>
 
 
 namespace mrjp {
 
-class CRUDProdutos : public CRUD
+class CRUDProdutos
 {
     QString nomeDoArquivoNoDisco;
     jose::LDEC<Produto *> * pEstoque;
 public:
     CRUDProdutos(QString nomeDoArquivoNoDisco);
-    virtual void criarLista() override;
-    virtual Produto* montar(std::string linha);
-    virtual std::string desmontar(QString);
+    void criarLista();
+    Produto* montar(std::string linha);
+    std::string desmontar(QString);
 
     void inserirNovoElemento(Produto *pProduto);
     int excluirElemento(unsigned int codigoDoProduto);
