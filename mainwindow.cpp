@@ -106,8 +106,7 @@ void MainWindow::on_pushButtonConfirmar_clicked()
                                                      ui->spinBoxQtdeEstoque->value(),ui->doubleSpinBoxPrecoUnitarioEstoque->value());
             if(ui->spinBoxCodEstoque->value() == -1){
                 pCRUDProdutos->inserirNovoElemento(pAux);
-                QMessageBox::information(this,"Estoque Atualizado","Produto Adicionado:\n" + pCRUDProdutos->getPEstoque()->operator[](pCRUDProdutos->getPEstoque()->getQuantidade())->print());
-//                throw "entrei no inserir ";
+//                QMessageBox::information(this,"Estoque Atualizado","Produto Adicionado:\n" + pCRUDProdutos->getPEstoque()->operator[](pCRUDProdutos->getPEstoque()->getQuantidade())->print());
             }
             else
                 pCRUDProdutos->atualizarElemento(pAux, ui->spinBoxCodEstoque->value());
