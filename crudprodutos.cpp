@@ -54,7 +54,7 @@ void CRUDProdutos::criarLista()
 
 Produto *CRUDProdutos::montar(std::string linha)
 {
-    QStringList list = QString::fromStdString(linha).split(';');
+    QStringList list = QString::fromStdString(linha).split(';', Qt::SkipEmptyParts);
     Produto * pProduto = new Produto(list[1],list[2].toUInt(),list[3].toFloat());
     pProduto->setCodigo(list[0].toUInt());
 
@@ -63,7 +63,7 @@ Produto *CRUDProdutos::montar(std::string linha)
 
 std::string CRUDProdutos::desmontar(Produto *pProduto)
 {
-    QStringList list = pProduto->print().split('\n', Qt::SkipEmptyParts);
+    QStringList list = pProduto->print().split('\n');
     QString print = QString();
     for(int i = 0; i < list.size(); i++)
         print += list[i] + ";";
