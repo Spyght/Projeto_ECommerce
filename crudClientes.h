@@ -28,6 +28,7 @@ public:
     void atualizarElemento(Cliente *pClienteExistente, unsigned int Codigo);
 
     unsigned int gerarID();
+    unsigned int gerarIDVenda(unsigned int IDCliente);
 
     jose::LDEC<Cliente *> *getPEstoque() const;
 //    void setPEstoque(jose::LDEC<Cliente *> *value);

@@ -124,9 +124,6 @@ void CRUDClientes::inserirNovoElemento(Cliente *pCliente)
     if(!arquivo.is_open())
         throw QString("Erro ao abrir arquivo de Clientes - Metodo inserir");
 
-//    if(pEstoque->getQuantidade() == 0)
-//        arquivo << desmontar(pCliente->print());
-//    else
     arquivo << desmontar(pCliente) << "\n";
     arquivo.close();
 
@@ -208,6 +205,29 @@ unsigned int CRUDClientes::gerarID()
         }
     }
     return i;
+}
+
+unsigned int CRUDClientes::gerarIDVenda(unsigned int IDCliente)
+{
+    for(int k = 1; k <= pEstoque->getQuantidade(); k++){
+        if(pEstoque->operator[](k)->getId() == IDCliente){
+            int i = 1;
+            for(; i <= pEstoque->operator[](k)->getPVendas()->getQuantidade(); i++){
+                for(int j = 0; j < pEstoque->operator[](k)->getPVendas()->getQuantidade(); j++){
+                    if(pEstoque->operator[](k)->getPVendas()->operator[](j + 1)->getIdPedido() == unsigned(i)){
+                        break;
+                    }
+                    else{
+                        if (j == getPEstoque()->getQuantidade() - 1){
+                            return i;
+                        }
+                    }
+                }
+            }
+            return i;
+        }
+    }
+    return 0;
 }
 
 } // namespace mrjp
