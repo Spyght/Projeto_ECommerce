@@ -64,11 +64,27 @@ private slots:
 
     void on_tabWidget_tabBarClicked(int index);
 
+    void on_pushButtonAddEstoque_3_clicked();
+
+    void on_pushButtonNovoPedido_clicked();
+
+    void on_tableWidgetEstoque_3_cellClicked(int row, int column);
+
+    void on_tableWidgetEstoque_3_cellDoubleClicked(int row, int column);
+
+    void on_pushButtonCancelarPedido_clicked();
+
+    void on_pushButtonConfirmarPedido_clicked();
+
+    void on_pushButtonAdd_clicked();
+
 private:
     Ui::MainWindow *ui;
     mrjp::CRUDProdutos *pCRUDProdutos;
 
     mrjp::CRUDClientes *pCRUDClientes;
+
+    jose::LDEC<mrjp::Venda *> * pListaDePedidos;
 //    mrjp::CRUD *pCRUD;
 };
 #endif // MAINWINDOW_H

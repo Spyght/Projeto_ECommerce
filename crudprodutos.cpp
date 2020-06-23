@@ -72,16 +72,13 @@ std::string CRUDProdutos::desmontar(Produto *pProduto)
 
 void CRUDProdutos::inserirNovoElemento(Produto *pProduto)
 {    
-    pProduto->setCodigo(gerarID()); //revisao: se colocar um if podemos usar esse metodo no metodo atualizar
+    pProduto->setCodigo(gerarID());
 
     std::ofstream arquivo;
     arquivo.open(nomeDoArquivoNoDisco.toStdString().c_str(), std::ios::out | std::ios::app);
     if(!arquivo.is_open())
         throw QString("Erro ao abrir arquivo de produtos - Metodo inserir");
 
-//    if(pEstoque->getQuantidade() == 0)
-//        arquivo << desmontar(pProduto->print());
-//    else
     arquivo << desmontar(pProduto) << "\n";
     arquivo.close();
 

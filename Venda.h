@@ -10,15 +10,15 @@ class Venda
 {
 public:
     Venda();
-    Venda(unsigned int dataCompra);
+    Venda(QString dataCompra);
     unsigned int getIdPedido() const;
     void setIdPedido(unsigned int value);
 
     unsigned int getIdCliente() const;
     void setIdCliente(unsigned int value);
 
-    unsigned int getDataCompra() const;
-    void setDataCompra(unsigned int value);
+    QString getDataCompra() const;
+    void setDataCompra(QString value);
 
     jose::LDEC<Produto *> *getPListaDeProdutos() const;
     void setPListaDeProdutos(jose::LDEC<Produto *> *value);
@@ -31,7 +31,7 @@ public:
 private:
     unsigned int idPedido;
     unsigned int idCliente;
-    unsigned int dataCompra;
+    QString dataCompra;
     double valorTotalDaCompra;
     jose::LDEC<Produto*> * pListaDeProdutos;
 };

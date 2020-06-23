@@ -20,6 +20,8 @@ public:
     Cliente* montar(std::string linha);
     Venda* montarVenda(std::string linha);
     std::string desmontar(Cliente * pCliente);
+    std::string desmontarVenda(Venda * pVenda);
+
 
     void inserirNovoElemento(Cliente *pCliente);
     int excluirElemento(unsigned int codigoDoCliente);

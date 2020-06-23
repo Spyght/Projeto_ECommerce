@@ -10,6 +10,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->QFrameEstoque->hide();
     ui->QFrameEstoque_2->hide();
 
+    ui->dateEdit->setDate(QDate::currentDate());
+    ui->dateEdit->setMinimumDate(QDate::currentDate());
+
+    //configuraçoes da tabela de Produtos
     ui->tableWidgetEstoque->sortByColumn(0, Qt::SortOrder(0));
     ui->tableWidgetEstoque->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
     ui->tableWidgetEstoque->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
@@ -23,6 +27,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidgetEstoque_2->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
     ui->tableWidgetEstoque_2->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
 
+    //configurações da tabela Vendas
+    ui->tableWidgetEstoque_3->sortByColumn(0, Qt::SortOrder(0));
+    ui->tableWidgetEstoque_3->verticalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    ui->tableWidgetEstoque_3->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
+    ui->tableWidgetEstoque_3->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
+    ui->tableWidgetEstoque_3->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);
+
     pCRUDProdutos = new mrjp::CRUDProdutos("estoque.txt");
     pCRUDProdutos->criarLista();
 
@@ -31,28 +42,26 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tableWidgetEstoque->setSortingEnabled(0);
     ui->tableWidgetEstoque->setRowCount(0);
+    for(int i = 1; i <= pCRUDClientes->getPEstoque()->getQuantidade(); i++){
 
-    for(int i = 1; i <= pCRUDProdutos->getPEstoque()->getQuantidade(); i++){
+        for(int j = 1; j <= pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->getQuantidade(); j++){
 
-        QStringList list = QString::fromStdString(pCRUDProdutos->desmontar(pCRUDProdutos->getPEstoque()->operator[](i))).split(';');
+            QStringList list = QString::fromStdString(pCRUDClientes->desmontarVenda(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j))).split(';');
 
-        ui->tableWidgetEstoque->insertRow(ui->tableWidgetEstoque->rowCount());
+            ui->tableWidgetEstoque->insertRow(ui->tableWidgetEstoque->rowCount());
 
-        QTableWidgetItem * item = new QTableWidgetItem(list[0]);
-        item->setTextAlignment(Qt::AlignCenter);
-        ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,0,item);
+            QTableWidgetItem * item = new QTableWidgetItem(list[0]);
+            item->setTextAlignment(Qt::AlignCenter);
+            ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,0,item);
 
-        item = new QTableWidgetItem(list[1]);
-        ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,1,item);
-        item->setTextAlignment(Qt::AlignCenter);
+            item = new QTableWidgetItem(list[1]);
+            ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,1,item);
+            item->setTextAlignment(Qt::AlignCenter);
 
-        item = new QTableWidgetItem(list[2]);
-        ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,2,item);
-        item->setTextAlignment(Qt::AlignCenter);
-
-        item = new QTableWidgetItem(list[3]);
-        item->setTextAlignment(Qt::AlignCenter);
-        ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,3,item);
+            item = new QTableWidgetItem(list[2]);
+            ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,2,item);
+            item->setTextAlignment(Qt::AlignCenter);
+        }
     }
     ui->tableWidgetEstoque->setSortingEnabled(1);
 }
@@ -371,8 +380,39 @@ void MainWindow::on_pushButtonCancelar_2_clicked()
     blockEstoqueEdit2();
 }
 
+// VENDAS ------------------------------------------------------------------------
+
+
+
 void MainWindow::on_tabWidget_tabBarClicked(int index)
 {
+    if(index == 0) {
+        ui->tableWidgetEstoque->setSortingEnabled(0);
+        ui->tableWidgetEstoque->setRowCount(0);
+
+        for(int i = 1; i <= pCRUDClientes->getPEstoque()->getQuantidade(); i++){
+
+            for(int j = 1; j <= pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->getQuantidade(); j++){
+
+                QStringList list = QString::fromStdString(pCRUDClientes->desmontarVenda(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j))).split(';');
+
+                ui->tableWidgetEstoque->insertRow(ui->tableWidgetEstoque->rowCount());
+
+                QTableWidgetItem * item = new QTableWidgetItem(list[0]);
+                item->setTextAlignment(Qt::AlignCenter);
+                ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,0,item);
+
+                item = new QTableWidgetItem(list[1]);
+                ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,1,item);
+                item->setTextAlignment(Qt::AlignCenter);
+
+                item = new QTableWidgetItem(list[2]);
+                ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,2,item);
+                item->setTextAlignment(Qt::AlignCenter);
+            }
+        }
+        ui->tableWidgetEstoque->setSortingEnabled(1);
+    }
     if(index == 1)
     {
         ui->tableWidgetEstoque_2->setSortingEnabled(0);
@@ -431,4 +471,49 @@ void MainWindow::on_tabWidget_tabBarClicked(int index)
         }
         ui->tableWidgetEstoque->setSortingEnabled(1);
     }
+}
+
+void MainWindow::on_pushButtonAddEstoque_3_clicked()
+{
+    ui->pushButtonAddEstoque_3->setEnabled(0);
+
+    ui->qFrameVendas->show();
+    ui->qGBPedido->hide();
+    ui->qGBOpcoes->hide();
+}
+
+void MainWindow::on_pushButtonNovoPedido_clicked()
+{
+    ui->pushButtonNovoPedido->setEnabled(0);
+    ui->qGBPedido->show();
+    ui->qGBOpcoes->show();
+}
+
+void MainWindow::on_tableWidgetEstoque_3_cellClicked(int , int )
+{
+    ui->qFrameVendas->hide();
+}
+
+void MainWindow::on_tableWidgetEstoque_3_cellDoubleClicked(int row, int column)
+{
+
+}
+
+void MainWindow::on_pushButtonCancelarPedido_clicked()
+{
+
+}
+
+void MainWindow::on_pushButtonConfirmarPedido_clicked()
+{
+    if(pListaDePedidos->getQuantidade() > 0){
+        for (;;) {
+
+        }(
+    }
+}
+
+void MainWindow::on_pushButtonAdd_clicked()
+{
+
 }

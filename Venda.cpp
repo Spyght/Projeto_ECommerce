@@ -8,10 +8,8 @@ Venda::Venda():
 
 }
 
-Venda::Venda(unsigned int dataCompra)
+Venda::Venda(QString dataCompra)
 {
-    setIdPedido(idPedido);
-    setIdCliente(idCliente);
     setDataCompra(dataCompra);
 
 }
@@ -36,12 +34,12 @@ void Venda::setIdCliente(unsigned int value)
     idCliente = value;
 }
 
-unsigned int Venda::getDataCompra() const
+QString Venda::getDataCompra() const
 {
     return dataCompra;
 }
 
-void Venda::setDataCompra(unsigned int value)
+void Venda::setDataCompra(QString value)
 {
     dataCompra = value;
 }

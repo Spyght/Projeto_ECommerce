@@ -85,20 +85,29 @@ Cliente *CRUDClientes::montar(std::string linha)
 Venda *CRUDClientes::montarVenda(std::string linha)
 {
     QStringList list = QString::fromStdString(linha).split(';');
-    Venda * pVendas = new Venda(list[2].toUInt());
+    Venda * pVendas = new Venda(list[2]);
     pVendas->setIdPedido(list[0].toUInt());
     pVendas->setIdCliente(list[1].toUInt());
     for(int i = 3; i < list.size(); i+=5){
         QString s = list[i] + ";" + list[i + 1] + ";" + list[i + 2] + ";" + list[i + 3] + ";";
         pVendas->getPListaDeProdutos()->inserirFim(CRUDProdutos::montar(s.toStdString()));
     }
-
     return pVendas;
 }
 
 std::string CRUDClientes::desmontar(Cliente *pCliente)
 {
     QStringList list = pCliente->print().split('\n');
+    QString print = QString();
+    for(int i = 0; i < list.size(); i++)
+        print += list[i] + ";";
+    print.chop(1); //nao incluir ultimo ';'
+    return print.toStdString();
+}
+
+std::string CRUDClientes::desmontarVenda(Venda *pVenda)
+{
+    QStringList list = pVenda->print().split('\n');
     QString print = QString();
     for(int i = 0; i < list.size(); i++)
         print += list[i] + ";";
