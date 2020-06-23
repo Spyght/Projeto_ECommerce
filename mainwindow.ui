@@ -60,7 +60,7 @@
               <item>
                <widget class="QPushButton" name="pushButtonNovoPedido">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -90,7 +90,7 @@
                </widget>
               </item>
               <item>
-               <widget class="QSpinBox" name="spinBox_6">
+               <widget class="QSpinBox" name="spinBoxVenda">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -102,7 +102,7 @@
               <item>
                <widget class="QPushButton" name="pushButtonAdd">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -124,7 +124,7 @@
               <item>
                <widget class="QPushButton" name="pushButtonSub">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="font">
                  <font>
@@ -156,7 +156,7 @@
               <item>
                <widget class="QPushButton" name="pushButtonConfirmarPedido">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="text">
                  <string>Confirmar</string>
@@ -166,7 +166,7 @@
               <item>
                <widget class="QPushButton" name="pushButtonCancelarPedido">
                 <property name="enabled">
-                 <bool>false</bool>
+                 <bool>true</bool>
                 </property>
                 <property name="text">
                  <string>Concelar</string>

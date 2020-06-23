@@ -262,6 +262,18 @@ void MainWindow::freeEstoqueEdit2()
     ui->lineEditCpf->setReadOnly(false);
 }
 
+//imprimir produto no textEdit de Vendas
+QString MainWindow::imprimirProduto(mrjp::Produto * pProduto)
+{
+    QStringList list = pProduto->print().split('\n', Qt::SkipEmptyParts);
+    QString s = "<b>Código do Produto: </b>" + list[0]
+            + "<b>Descrição:</b>" + list[1]
+            + "<b>Quantidade:</b>" + list[2]
+            + "<b>Preço Unitário:</b>" + list[3];
+    return s;
+
+}
+
 //bool MainWindow::isLabelsEmpty()
 //{
 //    if(ui->lineEditDescricaoEstoque->text() == "" or ui->spinBoxQtdeEstoque->value() == 0)
@@ -511,25 +523,27 @@ void MainWindow::on_tableWidgetEstoque_3_cellDoubleClicked(int row, int column)
 
 void MainWindow::on_pushButtonCancelarPedido_clicked()
 {
-
+    while(pListaDeProdutos->getQuantidade() > 0)
+        ui->pushButtonSub->click();
 }
 
 void MainWindow::on_pushButtonConfirmarPedido_clicked()
 {
-    unsigned int idCliente = 0;
-    for(int i = 2;;i++)
-    if(ui->comboBoxClientes->currentText().operator[](i) == "-")
-        idCliente = ui->comboBoxClientes->currentText().left(i - 1).toUInt();
-    for(int i = 0; i < pCRUDClientes->getPEstoque()->getQuantidade(); i++)
-        if(pCRUDClientes->getPEstoque()->operator[](i + 1)->getId() == idCliente){
+//    unsigned int idCliente = 0;
+//    for(int i = 2;;i++)
+//    if(ui->comboBoxClientes->currentText().operator[](i) == QChar('-'))
+//        idCliente = ui->comboBoxClientes->currentText().left(i - 1).toUInt();
+//    for(int i = 0; i < pCRUDClientes->getPEstoque()->getQuantidade(); i++)
+//        if(pCRUDClientes->getPEstoque()->operator[](i + 1)->getId() == idCliente){
             mrjp::Venda * pAux = new mrjp::Venda(ui->dateEdit->text());
+            pAux->setPListaDeProdutos(pListaDeProdutos);
             while(pListaDeProdutos->getQuantidade() > 0){
                 pAux->getPListaDeProdutos()->inserirFim(pListaDeProdutos->retirarInicio());
             }
-            pCRUDClientes->inserirPedido(pAux, idCliente);
+            pCRUDClientes->inserirPedido(pAux, pCRUDClientes->getPEstoque()->operator[](ui->comboBoxClientes->currentIndex() + 1)->getId());
 
-            break;
-        }
+//            break;
+//        }
 
     ui->pushButtonMostrarLista_3->click();
 
@@ -537,22 +551,46 @@ void MainWindow::on_pushButtonConfirmarPedido_clicked()
 
 void MainWindow::on_pushButtonAdd_clicked()
 {
-    if(pListaDeProdutos->getQuantidade() == 0){
-        unsigned int idProduto = 0;
-        for(int i = 2;;i++)
-        if(ui->comboBoxClientes->currentText().operator[](i) == "-")
-            idProduto = ui->comboBoxClientes->currentText().left(i - 1).toUInt();
-        for (int i = 0; i < pCRUDProdutos->getPEstoque()->getQuantidade(); i++) {
-            if(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getCodigo() == idProduto){
-                pListaDeProdutos->inserirFim(pCRUDProdutos->getPEstoque()->operator[](i + 1));
-            }
-        }
+    if(pCRUDProdutos->getPEstoque()->getQuantidade() > 0){
+//        if(pCRUDProdutos->getPEstoque()->operator[](ui->comboBoxProdutos->currentIndex() + 1)->getQuantidade() - ui->spinBoxVenda->value() < 0)
+//            QMessageBox::information(this,"Erro Adicionar Produto", "Há apenas "
+//                                     + QString::number(pCRUDProdutos->getPEstoque()->operator[](ui->comboBoxProdutos->currentIndex() + 1)->getQuantidade()) + " unidades desse produto no estoque");
+//        else{
+//                    mrjp::Produto * pAux = new mrjp::Produto(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getDescricao(), ui->spinBoxVenda->value(),pCRUDProdutos->getPEstoque()->operator[](i + 1)->getPrecoUnitario());
+        int index = ui->comboBoxProdutos->currentIndex() + 1;
+//        pCRUDProdutos->getPEstoque()->operator[](index)->setQuantidade(ui->spinBoxVenda->value());
+        mrjp::Produto * pAux = new mrjp::Produto(pCRUDProdutos->getPEstoque()->operator[](index)->getDescricao()
+                , ui->spinBoxVenda->value(),pCRUDProdutos->getPEstoque()->operator[](index)->getPrecoUnitario());
+        pListaDeProdutos->inserirFim(pAux);
+        ui->textEdit->append(imprimirProduto(pAux));
+//        }
+//        for (int i = 0; i < pCRUDProdutos->getPEstoque()->getQuantidade(); i++) {
+//            if(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getCodigo() == idProduto){
+//                if(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getQuantidade() - ui->spinBoxVenda->value() < 0)
+//                    QMessageBox::information(this,"Erro Adicionar Produto", "Há apenas "
+//                                             + QString::number(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getQuantidade()) + " unidades desse produto no estoque");
+//                else{
+////                    mrjp::Produto * pAux = new mrjp::Produto(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getDescricao(), ui->spinBoxVenda->value(),pCRUDProdutos->getPEstoque()->operator[](i + 1)->getPrecoUnitario());
+//                    pCRUDProdutos->getPEstoque()->operator[](i + 1)->setQuantidade(ui->spinBoxVenda->value());
+//                    pListaDeProdutos->inserirFim(pCRUDProdutos->getPEstoque()->operator[](i + 1));
+//                    ui->textEdit->append(imprimirProduto(pCRUDProdutos->getPEstoque()->operator[](i + 1)));
+//                }
+//            }
+//        }
     }
+//    else QMessageBox::information(this,"Erro Adicionar Produto", "Adicione um produto primeiro");
+
 }
 
 void MainWindow::on_pushButtonSub_clicked()
 {
     ui->textEdit->undo();
+    for (int i = 0; i < pCRUDProdutos->getPEstoque()->getQuantidade(); i++) {
+        if(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getCodigo() == pListaDeProdutos->operator[](pListaDeProdutos->getQuantidade())->getCodigo()){
+            pCRUDProdutos->getPEstoque()->operator[](i + 1)->setQuantidade(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getQuantidade() + pListaDeProdutos->retirarFim()->getQuantidade());
+            break;
+        }
+    }
     pListaDeProdutos->retirarFim();
 }
 

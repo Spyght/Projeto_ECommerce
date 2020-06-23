@@ -25,6 +25,8 @@ public:
     void clearTextEstoque2();
     void blockEstoqueEdit2();
     void freeEstoqueEdit2();
+
+    QString imprimirProduto(mrjp::Produto *);
 //    bool isLabelsEmpty();
 
 private slots:
