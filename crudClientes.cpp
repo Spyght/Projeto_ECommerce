@@ -62,8 +62,15 @@ void CRUDClientes::criarLista()
     arquivo.close();
 
     while(getline(arquivoVendas,linhaVendas)){
-
+        if(linhaVendas != "")
+            for(int i = 0; i < getPEstoque()->getQuantidade(); i++){
+                if(montarVenda(linhaVendas)->getIdCliente() == pEstoque->operator[](i + 1)->getId()){
+                    pEstoque->operator[](i + 1)->getPVendas()->inserirFim(montarVenda(linhaVendas)); //preenchendo a lista de vendas de um determinado cliente
+                    break;
+                }
+            }
     }
+    arquivoVendas.close();
 }
 
 Cliente *CRUDClientes::montar(std::string linha)
@@ -81,7 +88,10 @@ Venda *CRUDClientes::montarVenda(std::string linha)
     Venda * pVendas = new Venda(list[2].toUInt());
     pVendas->setIdPedido(list[0].toUInt());
     pVendas->setIdCliente(list[1].toUInt());
-//    for()
+    for(int i = 3; i < list.size(); i+=5){
+        QString s = list[i] + ";" + list[i + 1] + ";" + list[i + 2] + ";" + list[i + 3] + ";";
+        pVendas->getPListaDeProdutos()->inserirFim(CRUDProdutos::montar(s.toStdString()));
+    }
 
     return pVendas;
 }
@@ -98,7 +108,7 @@ std::string CRUDClientes::desmontar(Cliente *pCliente)
 
 void CRUDClientes::inserirNovoElemento(Cliente *pCliente)
 {
-    pCliente->setId(gerarID()); //revisao: se colocar um if podemos usar esse metodo no metodo atualizar
+    pCliente->setId(gerarID());
 
     std::ofstream arquivo;
     arquivo.open(nomeDoArquivoDeClientes.toStdString().c_str(), std::ios::out | std::ios::app);

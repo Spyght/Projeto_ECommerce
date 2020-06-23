@@ -3,6 +3,7 @@
 #include<ldec.h>
 #include<QStringList>
 #include<cliente.h>
+#include<crudprodutos.h>
 #include<fstream>
 
 
