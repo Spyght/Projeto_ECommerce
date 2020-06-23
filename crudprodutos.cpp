@@ -61,13 +61,12 @@ Produto *CRUDProdutos::montar(std::string linha)
     return pProduto;
 }
 
-std::string CRUDProdutos::desmontar(QString print)
+std::string CRUDProdutos::desmontar(Produto *pProduto)
 {
-    QStringList list = print.split('\n');
-    print = QString();
+    QStringList list = pProduto->print().split('\n', Qt::SkipEmptyParts);
+    QString print = QString();
     for(int i = 0; i < list.size(); i++)
         print += list[i] + ";";
-    print.chop(1); //nao incluir ultimo ';'
     return print.toStdString();
 }
 
@@ -83,7 +82,7 @@ void CRUDProdutos::inserirNovoElemento(Produto *pProduto)
 //    if(pEstoque->getQuantidade() == 0)
 //        arquivo << desmontar(pProduto->print());
 //    else
-    arquivo << desmontar(pProduto->print()) << "\n";
+    arquivo << desmontar(pProduto) << "\n";
     arquivo.close();
 
     getPEstoque()->inserirFim(pProduto);
@@ -108,7 +107,7 @@ int CRUDProdutos::excluirElemento(unsigned int codProduto)
             std::string linha;
 
             while(getline(arquivo, linha))
-                if(linha != desmontar(pEstoque->operator[](i + 1)->print()) && linha != "")
+                if(linha != desmontar(pEstoque->operator[](i + 1)) && linha != "")
                     arqTemp << linha + "\n";
             //fecha os arquivos
             arquivo.close();
@@ -137,7 +136,7 @@ void CRUDProdutos::atualizarElemento(Produto *pProdutoExistente, unsigned int co
             if(!arquivo.is_open())
                 throw QString("Erro ao abrir arquivo de produtos - Metodo inserir");
 
-            arquivo << desmontar(pProdutoExistente->print()) << "\n";
+            arquivo << desmontar(pProdutoExistente) << "\n";
             arquivo.close();
 
             getPEstoque()->inserirFim(pProdutoExistente);
@@ -150,8 +149,8 @@ void CRUDProdutos::atualizarElemento(Produto *pProdutoExistente, unsigned int co
 
 unsigned int CRUDProdutos::gerarID()
 {
-    int i = 0;
-    for(; i < getPEstoque()->getQuantidade(); i++){
+    int i = 1;
+    for(; i <= getPEstoque()->getQuantidade(); i++){
         for(int j = 0; j < getPEstoque()->getQuantidade(); j++){
             if(getPEstoque()->operator[](j + 1)->getCodigo() == unsigned(i)){
                 break;

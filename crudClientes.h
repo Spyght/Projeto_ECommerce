@@ -1,32 +1,35 @@
-//#ifndef MRJP_CRUDCLIENTES_H
-//#define MRJP_CRUDCLIENTES_H
-//#include"crud.h"
-//#include<fstream>
-//#include"cliente.h"
-//namespace mrjp {
+#ifndef MRJP_CRUDCLIENTES_H
+#define MRJP_CRUDCLIENTES_H
+#include<ldec.h>
+#include<QStringList>
+#include<cliente.h>
+#include<fstream>
 
-//class crudClientes : public CRUD
-//{
-//public:
-//    QString nomeArquivoDisco;
-//    jose::LDEC<Clientes *> * pCliente;
 
-//public:
-//    crudClientes(QString nomeArquivoDisco);
-//    virtual void criarLista() override;
-//    virtual Clientes * montar(std::string linha);
-//    virtual std::string desmontar(QString print);
+namespace mrjp {
 
-//    void inserirLista(Clientes *cliente);
-//    int excluirCliente(unsigned int codigoCliente);
-//    void atualizarCliente(Clientes * clienteExistente);
-//    unsigned int gerarID();
+class CRUDClientes
+{
+    QString nomeDoArquivoDeClientes;
+    QString nomeDoAtquivoDeVendas;
+    jose::LDEC<Cliente *> * pEstoque;
+public:
+    CRUDClientes(QString nomeDoArquivoDeClientes, QString nomeDoAtquivoDeVendas);
+    void criarLista();
+    Cliente* montar(std::string linha);
+    Venda* montarVenda(std::string linha);
+    std::string desmontar(Cliente * pCliente);
 
-//    jose::LDEC<Clientes *> *getpCliente()const;
-//    void setpCliente(jose::LDEC<Clientes *> * value);
+    void inserirNovoElemento(Cliente *pCliente);
+    int excluirElemento(unsigned int codigoDoCliente);
+    void atualizarElemento(Cliente *pClienteExistente, unsigned int Codigo);
 
-//};
+    unsigned int gerarID();
 
-//} // namespace mrjp
+    jose::LDEC<Cliente *> *getPEstoque() const;
+//    void setPEstoque(jose::LDEC<Cliente *> *value);
+};
 
-//#endif // MRJP_CRUDCLIENTES_H
+} // namespace mrjp
+
+#endif // MRJP_CRUDCLIENTES_H

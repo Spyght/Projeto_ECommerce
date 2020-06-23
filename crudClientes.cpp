@@ -1,168 +1,194 @@
-//#include "crudClientes.h"
+#include<crudClientes.h>
 
-//namespace mrjp {
+namespace mrjp {
 
-//crudClientes::crudClientes(QString nomeArquivoDisco):nomeArquivoDisco(nomeArquivoDisco)
+jose::LDEC<Cliente *> *CRUDClientes::getPEstoque() const
+{
+    return pEstoque;
+}
+
+//void CRUDClientes::setPEstoque(jose::LDEC<Cliente *> *value)
 //{
-//    std::ifstream arquivo;
-//    arquivo.open(nomeArquivoDisco.toStdString().c_str());
-
-//    if(! arquivo.is_open()){
-//        std::ofstream novoArquivo(nomeArquivoDisco.toStdString().c_str());
-//        novoArquivo.close(); //perguntar jose
-//    }
-//    arquivo.close();
-
-//    try {
-//        pCliente = new jose::LDEC<Clientes *>;
-//    } catch (std:: bad_alloc &) {
-//        throw QString ("ERRO: FALTA MEMORIA.\n Elemento nao inserido");
-
-//    }
+//    pEstoque = value;
 //}
 
-//void crudClientes::criarLista()
-//{
-//    //abrir aquivo
+CRUDClientes::CRUDClientes(QString arquivoDeClientes, QString arquivoDeVendas):
+    nomeDoArquivoDeClientes(arquivoDeClientes),
+    nomeDoAtquivoDeVendas(arquivoDeVendas)
+{
+    std::ifstream arquivo;
+    arquivo.open(arquivoDeClientes.toStdString().c_str());
 
-//    std::ifstream arquivo;
-//    arquivo.open(nomeArquivoDisco.toStdString().c_str());
+    if(!arquivo.is_open()){
+        std::ofstream novoArquivo(arquivoDeClientes.toStdString().c_str());
+        novoArquivo.close();
+    }
+    arquivo.close();
 
-//    if(! arquivo.is_open())
-//        throw QString ("Arquivo nao aberto");
+    arquivo.open(arquivoDeVendas.toStdString().c_str());
 
-//    std::string linha;
+    if(!arquivo.is_open()){
+        std::ofstream novoArquivo(arquivoDeVendas.toStdString().c_str());
+        novoArquivo.close();
+    }
+    arquivo.close();
 
-//    while(! arquivo.eof()){
-//        getline(arquivo,linha);
-//        getpCliente()->inserirFim(montar(linha));
-//    }
-//    arquivo.close();
-//}
+    try {
+        pEstoque = new jose::LDEC<Cliente *>;
+    } catch (std::bad_alloc &) {
+        throw QString("Erro: Falta de memória. Elemento não inserido.");
+    }
+}
 
-//Clientes *crudClientes::montar(std::string linha)
-//{
-//    QStringList list = QString::fromStdString(linha).split(';');
-//    Clientes * pCliente =new Clientes(list[0],list[1],list[2].toUInt(),list[3].toUInt());
-//    return pCliente;
-//}
+void CRUDClientes::criarLista()
+{
+    //abrir arquivo
+    std::ifstream arquivo, arquivoVendas;
+    arquivo.open(nomeDoArquivoDeClientes.toStdString().c_str(), std::ios::in);
+    arquivoVendas.open(nomeDoAtquivoDeVendas.toStdString().c_str(), std::ios::in);
 
-//std::string crudClientes::desmontar(QString print)
-//{
-//    QStringList list = print.split('\n');
-//    print = QString();
+    if(!arquivo.is_open())
+        throw QString("Arquivo de Clientes nao foi aberto");
+    if(!arquivoVendas.is_open())
+        throw QString("Arquivo de Vendas nao foi aberto");
 
-//    for(int i = 0 ; i < list.size(); i++)
-//        print += list[i] + ";" ;
+    std::string linha;
+    std::string linhaVendas;
 
-//        print.chop(1); //nao incluir o ultimo ';'
+    while(getline(arquivo,linha)){
+        if(linha != "")
+            getPEstoque()->inserirFim(montar(linha));
+    }
+    arquivo.close();
 
-//        return print.toStdString();
+    while(getline(arquivoVendas,linhaVendas)){
 
-//}
+    }
+}
 
+Cliente *CRUDClientes::montar(std::string linha)
+{
+    QStringList list = QString::fromStdString(linha).split(';');
+    Cliente * pCliente = new Cliente(list[1], list[2], list[3].toUInt(), list[4].toUInt());
+    pCliente->setId(list[0].toUInt());
 
-//void crudClientes::inserirLista(Clientes *cliente)
-//{
-//    cliente->setCodigoCliente(gerarID());
+    return pCliente;
+}
 
-//    std::ofstream arquivo;
-//    arquivo.open(nomeArquivoDisco.toStdString().c_str(), std::ios::out | std::ios::app);
-//    if(!arquivo.is_open())
-//        throw QString ("Erro ao abrir aquivo Clientes");
+Venda *CRUDClientes::montarVenda(std::string linha)
+{
+    QStringList list = QString::fromStdString(linha).split(';');
+    Venda * pVendas = new Venda(list[2].toUInt());
+    pVendas->setIdPedido(list[0].toUInt());
+    pVendas->setIdCliente(list[1].toUInt());
+//    for()
 
-//    arquivo << desmontar(cliente->print());
-//    arquivo.close();
+    return pVendas;
+}
 
-//    getpCliente()->inserirFim(cliente);
-//}
+std::string CRUDClientes::desmontar(Cliente *pCliente)
+{
+    QStringList list = pCliente->print().split('\n');
+    QString print = QString();
+    for(int i = 0; i < list.size(); i++)
+        print += list[i] + ";";
+    print.chop(1); //nao incluir ultimo ';'
+    return print.toStdString();
+}
 
-//int crudClientes::excluirCliente(unsigned int codigoCliente)
-//{
-//    for(int i = 0; i < pCliente->getQuantidade(); i++)
-//        if(pCliente->operator[](i+1)->getCodigoCliente() ==codigoCliente){
+void CRUDClientes::inserirNovoElemento(Cliente *pCliente)
+{
+    pCliente->setId(gerarID()); //revisao: se colocar um if podemos usar esse metodo no metodo atualizar
 
-//            std::ifstream arquivo;
-//            arquivo.open(nomeArquivoDisco.toStdString().c_str(),std::ios::in);
+    std::ofstream arquivo;
+    arquivo.open(nomeDoArquivoDeClientes.toStdString().c_str(), std::ios::out | std::ios::app);
+    if(!arquivo.is_open())
+        throw QString("Erro ao abrir arquivo de Clientes - Metodo inserir");
 
-//            if(! arquivo.is_open())
-//                throw  QString("Arquivo nao foi aberto");
+//    if(pEstoque->getQuantidade() == 0)
+//        arquivo << desmontar(pCliente->print());
+//    else
+    arquivo << desmontar(pCliente) << "\n";
+    arquivo.close();
 
-//            std::ofstream arqTemp;
-//            arqTemp.open("temp.txt",std::ios::out);
+    getPEstoque()->inserirFim(pCliente);
+}
 
-//            if(! arqTemp.is_open())
-//                throw QString("Arquivo temporario nao aberto");
+int CRUDClientes::excluirElemento(unsigned int codCliente)
+{
+    for(int i = 0; i < pEstoque->getQuantidade(); i++)
+        if(pEstoque->operator[](i + 1)->getId() == codCliente)
+        {
+            std::ifstream arquivo;
+            arquivo.open(nomeDoArquivoDeClientes.toStdString().c_str(), std::ios::in);
 
-//            std::string linha;
+            if(!arquivo.is_open())
+                throw QString("Arquivo nao foi aberto");
 
-//            while(getline(arquivo,linha))
-//                if(QString::fromStdString(linha) == pCliente->operator[](i+1)->print())
-//                    continue;
-//                else
-//                    arqTemp << linha + "\n";
+            std::ofstream arqTemp;
+            arqTemp.open("temp.txt", std::ios::out);
+            if(!arqTemp.is_open()){
+                throw QString("Arquivo temporario nao foi aberto");
+            }
+            std::string linha;
 
-//            // fecha os arquivos
-//            arquivo.close();
-//            arqTemp.close();
+            while(getline(arquivo, linha))
+                if(linha != desmontar(pEstoque->operator[](i + 1)) && linha != "")
+                    arqTemp << linha + "\n";
+            //fecha os arquivos
+            arquivo.close();
+            arqTemp.close();
 
-//            remove(nomeArquivoDisco.toStdString().c_str());
-//            rename("temp.txt",nomeArquivoDisco.toStdString().c_str());
+            remove(nomeDoArquivoDeClientes.toStdString().c_str());
+            rename("temp.txt", nomeDoArquivoDeClientes.toStdString().c_str());
 
-//            pCliente->retirarPosicao(i+1);
-//            return 0;
-//        }
-//    return -1;
-//}
+            pEstoque->retirarPosicao(i + 1);
+            return 0;
+        }
+    return -1;
+}
 
-//void crudClientes::atualizarCliente(Clientes *clienteExistente)
-//{
-//    for(int i = 0; i < pCliente->getQuantidade(); i++){
+void CRUDClientes::atualizarElemento(Cliente *pClienteExistente, unsigned int cod)
+{
+    pClienteExistente->setId(cod);
 
-//        if(clienteExistente->getCodigoCliente() == pCliente->operator[](i+1)->getCodigoCliente()){
-//            excluirCliente(clienteExistente->getCodigoCliente());
+    for(int i = 0; i < pEstoque->getQuantidade(); i++)
+    {
+        if(cod == pEstoque->operator[](i + 1)->getId()){
+            excluirElemento(cod);
 
-//        std::ofstream arquivo;
-//        arquivo.open(nomeArquivoDisco.toStdString().c_str(), std::ios::out | std::ios::app);
+            std::ofstream arquivo;
+            arquivo.open(nomeDoArquivoDeClientes.toStdString().c_str(), std::ios::out | std::ios::app);
+            if(!arquivo.is_open())
+                throw QString("Erro ao abrir arquivo de Clientes - Metodo inserir");
 
-//        if(!arquivo.is_open())
-//            throw QString ("Erro ao abrir arquivo de Clientes");
+            arquivo << desmontar(pClienteExistente) << "\n";
+            arquivo.close();
 
-//        arquivo << desmontar(clienteExistente->print());
-//        arquivo.close();
+            getPEstoque()->inserirFim(pClienteExistente);
+            break;
+        }
+        if(i == pEstoque->getQuantidade() - 1)
+            inserirNovoElemento(pClienteExistente); //se nao existir nenhum elemento igual, cria um novo
+    }
+}
 
-//        getpCliente()->inserirFim(clienteExistente);
-//        break;
-//    }
-//    if(i == pCliente->getQuantidade()-1)
-//        inserirLista(clienteExistente);
-//    }
-//}
+unsigned int CRUDClientes::gerarID()
+{
+    int i = 1;
+    for(; i <= getPEstoque()->getQuantidade(); i++){
+        for(int j = 0; j < getPEstoque()->getQuantidade(); j++){
+            if(getPEstoque()->operator[](j + 1)->getId() == unsigned(i)){
+                break;
+            }
+            else{
+                if (j == getPEstoque()->getQuantidade() - 1){
+                    return i;
+                }
+            }
+        }
+    }
+    return i;
+}
 
-
-
-//unsigned int crudClientes::gerarID()
-//{
-//    for(int i = 0; i <getpCliente()->getQuantidade();i++){
-//        if(getpCliente()->operator[](i + 1)->getCodigoCliente() != i)
-//            return i;
-
-//    }
-//}
-
-
-
-
-//jose::LDEC<Clientes *> *crudClientes::getpCliente() const
-//{
-//    return pCliente;
-//}
-
-//void crudClientes::setpCliente(jose::LDEC<Clientes *> *value)
-//{
-//    pCliente = value;
-//}
-
-
-
-//} // namespace mrjp
+} // namespace mrjp

@@ -5,6 +5,8 @@
 #include<QMessageBox>
 #include<crudprodutos.h>
 #include<Produto.h>
+#include<crudClientes.h>
+#include<cliente.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -20,6 +22,10 @@ public:
     void clearTextEstoque();
     void blockEstoqueEdit();
     void freeEstoqueEdit();
+    void clearTextEstoque2();
+    void blockEstoqueEdit2();
+    void freeEstoqueEdit2();
+//    bool isLabelsEmpty();
 
 private slots:
     void on_pushButtonAddEstoque_clicked();
@@ -38,9 +44,31 @@ private slots:
 
     void on_pushButtonCancelar_clicked();
 
+    //Clientes
+    void on_pushButtonAddEstoque_2_clicked();
+
+    void on_pushButtonConfirmar_2_clicked();
+
+    void on_tableWidgetEstoque_2_cellDoubleClicked(int row, int column);
+
+    void on_tableWidgetEstoque_2_cellClicked(int row, int column);
+
+    void on_pushButtonMostrarLista_2_clicked();
+
+    void on_pushButtonExcluirEstoque_2_clicked();
+
+    void on_pushButtonEditarEstoque_2_clicked();
+
+    void on_pushButtonCancelar_2_clicked();
+
+
+    void on_tabWidget_tabBarClicked(int index);
+
 private:
     Ui::MainWindow *ui;
     mrjp::CRUDProdutos *pCRUDProdutos;
+
+    mrjp::CRUDClientes *pCRUDClientes;
 //    mrjp::CRUD *pCRUD;
 };
 #endif // MAINWINDOW_H

@@ -1,53 +1,52 @@
-//#ifndef MRJP_CLIENTES_H
-//#define MRJP_CLIENTES_H
-//#include<QString>
-//#include<QStringList>
+#ifndef MRJP_CLIENTES_H
+#define MRJP_CLIENTES_H
+#include<Venda.h>
+#include<QString>
+#include<QStringList>
 
 
-//namespace mrjp {
+namespace mrjp {
 
-//class Clientes
-//{
-//public:
-//    Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf);
-//    virtual ~Clientes();
+class Cliente
+{
+public:
+    Cliente(QString nome,QString endereco,unsigned int telefone, unsigned int cpf);
 
-////    virtual Clientes* montar(std::string entrada) override;
-////    virtual std::string desmontar(QString) override;
+    void setTelefone(unsigned int value);
 
-//    void setTelefone(unsigned int value);
+    void setNome(const QString &value);
 
-//    void setNome(const QString &value);
+    void setEndereco(const QString &value);
 
-//    void setEndereco(const QString &value);
+    void setCpf(unsigned int value);
 
-//    void setCpf(unsigned int value);
-
-//    QString print ()const;
+    QString print ()const;
 
 
-//    unsigned int getCodigoCliente() const;
-//    void setCodigoCliente(unsigned int value);
+    unsigned int getId() const;
+    void setId(unsigned int value);
 
-//    QString getNome() const;
+    QString getNome() const;
 
-//    QString getEndereco() const;
+    QString getEndereco() const;
 
-//    unsigned int getTelefone() const;
+    unsigned int getTelefone() const;
 
-//    unsigned int getCpf() const;
+    unsigned int getCpf() const;
 
-//private:
-//    int id;
+    jose::LDEC<Venda *> *getPVendas() const;
+    void setPVendas(jose::LDEC<Venda *> *value);
 
-//    QString nome;
-//    QString endereco;
-//    unsigned int telefone;
-//    unsigned int cpf;
-//    unsigned int codigoCliente;
+private:
+    jose::LDEC<Venda *> * pVendas;
+    unsigned int id;
+    QString nome;
+    QString endereco;
+    unsigned int telefone;
+    unsigned int cpf;
 
-//};
+};
 
-//} // namespace mrjp
+} // namespace mrjp
 
-//#endif // MRJP_CLIENTES_H
+#endif // MRJP_CLIENTES_H

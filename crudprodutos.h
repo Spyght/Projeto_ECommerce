@@ -16,7 +16,7 @@ public:
     CRUDProdutos(QString nomeDoArquivoNoDisco);
     void criarLista();
     Produto* montar(std::string linha);
-    std::string desmontar(QString);
+    std::string desmontar(Produto * pProduto);
 
     void inserirNovoElemento(Produto *pProduto);
     int excluirElemento(unsigned int codigoDoProduto);

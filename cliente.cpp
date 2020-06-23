@@ -1,85 +1,92 @@
-//#include "cliente.h"
+#include "cliente.h"
 
-//namespace mrjp {
+namespace mrjp {
 
-//Clientes::Clientes(QString nome,QString endereco,unsigned int telefone, unsigned int cpf)
-//{
-//    setNome(nome);
-//    setEndereco(endereco);
-//    setTelefone(telefone);
-//    setCpf(cpf);
-//}
+Cliente::Cliente(QString nome,QString endereco,unsigned int telefone, unsigned int cpf)
+{
+    try {
+        pVendas = new jose::LDEC<Venda *>;
+    } catch (std::bad_alloc &) {
+        throw QString("Erro: Falta de memória. Elemento não inserido.");
+    }
+    setNome(nome);
+    setEndereco(endereco);
+    setTelefone(telefone);
+    setCpf(cpf);
+}
 
-//void Clientes::setTelefone(unsigned int value)
-//{
-//    // verificando a validade do telefone.
+void Cliente::setTelefone(unsigned int value)
+{
+    // verificando a validade do telefone.
 //    QString verificador = QString::number( value);
 //    if( verificador.length() >8 || verificador.length() < 9 ){
 //        throw "Numero invalido";
 //    }else
-//       telefone = value;
-//}
+       telefone = value;
+}
 
-//void Clientes::setNome(const QString &value)
-//{
+void Cliente::setNome(const QString &value)
+{
 //    if(value != "")
-//        nome = value;
-//    else
 //        throw "Nome invalido !";
-//}
+    nome = value;
+}
 
-//void Clientes::setEndereco(const QString &value)
-//{
+void Cliente::setEndereco(const QString &value)
+{
 //    if(value != "")
-//      endereco = value;
-//    else
 //        throw "Endereço invalido !";
-//}
+    endereco = value;
+}
 
-//void Clientes::setCpf(unsigned int value)
-//{
-//    cpf = value;
-//}
+void Cliente::setCpf(unsigned int value)
+{
+    cpf = value;
+}
 
-//QString Clientes::print()const
-//{
-//    return QString::number(getCodigoCliente()) + "\n" + getNome() + "\n" + getEndereco() + "\n" + QString::number(getTelefone()) + "\n" + QString::number(getCpf());
-//}
+QString Cliente::print()const
+{
+    return QString::number(getId()) + "\n" + getNome() + "\n" + getEndereco() + "\n" + QString::number(getTelefone()) + "\n" + QString::number(getCpf());
+}
 
-//unsigned int Clientes::getCodigoCliente() const
-//{
-//    return codigoCliente;
-//}
+unsigned int Cliente::getId() const
+{
+    return id;
+}
 
-//void Clientes::setCodigoCliente(unsigned int value)
-//{
-//    codigoCliente = value;
-//}
+void Cliente::setId(unsigned int value)
+{
+    id = value;
+}
 
-//QString Clientes::getNome() const
-//{
-//    return nome;
-//}
+QString Cliente::getNome() const
+{
+    return nome;
+}
 
-//QString Clientes::getEndereco() const
-//{
-//    return endereco;
-//}
+QString Cliente::getEndereco() const
+{
+    return endereco;
+}
 
-//unsigned int Clientes::getTelefone() const
-//{
-//    return telefone;
-//}
+unsigned int Cliente::getTelefone() const
+{
+    return telefone;
+}
 
-//unsigned int Clientes::getCpf() const
-//{
-//    return cpf;
-//}
+unsigned int Cliente::getCpf() const
+{
+    return cpf;
+}
 
+jose::LDEC<Venda *> *Cliente::getPVendas() const
+{
+    return pVendas;
+}
 
-////void Clientes::montar(QString entrada)
+void Cliente::setPVendas(jose::LDEC<Venda *> *value)
+{
+    pVendas = value;
+}
 
-
-
-
-//} // namespace mrjp
+} // namespace mrjp
