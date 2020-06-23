@@ -189,6 +189,29 @@ void CRUDClientes::atualizarElemento(Cliente *pClienteExistente, unsigned int co
     }
 }
 
+void CRUDClientes::inserirPedido(Venda *pPedido, unsigned int IDCliente)
+{
+    pPedido->setIdPedido(gerarIDVenda(IDCliente));
+    pPedido->setIdCliente(IDCliente);
+
+    for(int i = 0; i < pEstoque->getQuantidade(); i++)
+    {
+        if(pEstoque->operator[](i+ 1)->getId() == IDCliente){
+
+            std::ofstream arquivo;
+            arquivo.open(nomeDoAtquivoDeVendas.toStdString().c_str(), std::ios::out | std::ios::app);
+            if(!arquivo.is_open())
+                throw QString("Erro ao abrir arquivo de Vendas - Metodo inserir");
+
+            arquivo << desmontarVenda(pPedido) << "\n";
+            arquivo.close();
+
+            pEstoque->operator[](i + 1)->getPVendas()->inserirFim(pPedido);
+            break;
+            }
+    }
+}
+
 unsigned int CRUDClientes::gerarID()
 {
     int i = 1;

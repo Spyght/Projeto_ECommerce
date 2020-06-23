@@ -40,6 +40,16 @@ MainWindow::MainWindow(QWidget *parent)
     pCRUDClientes = new mrjp::CRUDClientes("clientes.txt","vendas.txt");
     pCRUDClientes->criarLista();
 
+    for(int i = 0; i < pCRUDClientes->getPEstoque()->getQuantidade(); i++){
+        QStringList list = QString::fromStdString(pCRUDClientes->desmontar(pCRUDClientes->getPEstoque()->operator[](i + 1))).split(';');
+        ui->comboBoxClientes->insertItem(i,list[0] + " - " + list[1]);
+    }
+
+    for(int i = 0; i < pCRUDProdutos->getPEstoque()->getQuantidade(); i++){
+        QStringList list = QString::fromStdString(pCRUDProdutos->desmontar(pCRUDProdutos->getPEstoque()->operator[](i + 1))).split(';');
+        ui->comboBoxProdutos->insertItem(i,list[0] + " - " + list[1]);
+    }
+
     ui->tableWidgetEstoque->setSortingEnabled(0);
     ui->tableWidgetEstoque->setRowCount(0);
     for(int i = 1; i <= pCRUDClientes->getPEstoque()->getQuantidade(); i++){
@@ -506,14 +516,70 @@ void MainWindow::on_pushButtonCancelarPedido_clicked()
 
 void MainWindow::on_pushButtonConfirmarPedido_clicked()
 {
-    if(pListaDePedidos->getQuantidade() > 0){
-        for (;;) {
+    unsigned int idCliente = 0;
+    for(int i = 2;;i++)
+    if(ui->comboBoxClientes->currentText().operator[](i) == "-")
+        idCliente = ui->comboBoxClientes->currentText().left(i - 1).toUInt();
+    for(int i = 0; i < pCRUDClientes->getPEstoque()->getQuantidade(); i++)
+        if(pCRUDClientes->getPEstoque()->operator[](i + 1)->getId() == idCliente){
+            mrjp::Venda * pAux = new mrjp::Venda(ui->dateEdit->text());
+            while(pListaDeProdutos->getQuantidade() > 0){
+                pAux->getPListaDeProdutos()->inserirFim(pListaDeProdutos->retirarInicio());
+            }
+            pCRUDClientes->inserirPedido(pAux, idCliente);
 
-        }(
-    }
+            break;
+        }
+
+    ui->pushButtonMostrarLista_3->click();
+
 }
 
 void MainWindow::on_pushButtonAdd_clicked()
 {
+    if(pListaDeProdutos->getQuantidade() == 0){
+        unsigned int idProduto = 0;
+        for(int i = 2;;i++)
+        if(ui->comboBoxClientes->currentText().operator[](i) == "-")
+            idProduto = ui->comboBoxClientes->currentText().left(i - 1).toUInt();
+        for (int i = 0; i < pCRUDProdutos->getPEstoque()->getQuantidade(); i++) {
+            if(pCRUDProdutos->getPEstoque()->operator[](i + 1)->getCodigo() == idProduto){
+                pListaDeProdutos->inserirFim(pCRUDProdutos->getPEstoque()->operator[](i + 1));
+            }
+        }
+    }
+}
 
+void MainWindow::on_pushButtonSub_clicked()
+{
+    ui->textEdit->undo();
+    pListaDeProdutos->retirarFim();
+}
+
+void MainWindow::on_pushButtonMostrarLista_3_clicked()
+{
+    ui->tableWidgetEstoque->setSortingEnabled(0);
+    ui->tableWidgetEstoque->setRowCount(0);
+    for(int i = 1; i <= pCRUDClientes->getPEstoque()->getQuantidade(); i++){
+
+        for(int j = 1; j <= pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->getQuantidade(); j++){
+
+            QStringList list = QString::fromStdString(pCRUDClientes->desmontarVenda(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j))).split(';');
+
+            ui->tableWidgetEstoque->insertRow(ui->tableWidgetEstoque->rowCount());
+
+            QTableWidgetItem * item = new QTableWidgetItem(list[0]);
+            item->setTextAlignment(Qt::AlignCenter);
+            ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,0,item);
+
+            item = new QTableWidgetItem(list[1]);
+            ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,1,item);
+            item->setTextAlignment(Qt::AlignCenter);
+
+            item = new QTableWidgetItem(list[2]);
+            ui->tableWidgetEstoque->setItem(ui->tableWidgetEstoque->rowCount() - 1,2,item);
+            item->setTextAlignment(Qt::AlignCenter);
+        }
+    }
+    ui->tableWidgetEstoque->setSortingEnabled(1);
 }

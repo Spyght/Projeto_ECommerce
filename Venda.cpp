@@ -70,7 +70,7 @@ void Venda::setValorTotalDaCompra()
 
 QString Venda::print() const
 {
-    QString strPrint = QString::number(idPedido) + "\n" + QString::number(idCliente) + "\n" + QString::number(valorTotalDaCompra) + "\n";
+    QString strPrint = QString::number(idPedido) + "\n" + QString::number(idCliente) + "\n" + getDataCompra() + "\n";
 
     for(int i = 0; i < getPListaDeProdutos()->getQuantidade(); i++)
         strPrint += getPListaDeProdutos()->operator[](i + 1)->print();

@@ -78,13 +78,17 @@ private slots:
 
     void on_pushButtonAdd_clicked();
 
+    void on_pushButtonSub_clicked();
+
+    void on_pushButtonMostrarLista_3_clicked();
+
 private:
     Ui::MainWindow *ui;
     mrjp::CRUDProdutos *pCRUDProdutos;
 
     mrjp::CRUDClientes *pCRUDClientes;
 
-    jose::LDEC<mrjp::Venda *> * pListaDePedidos;
+    jose::LDEC<mrjp::Produto *> * pListaDeProdutos;
 //    mrjp::CRUD *pCRUD;
 };
 #endif // MAINWINDOW_H

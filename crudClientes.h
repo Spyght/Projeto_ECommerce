@@ -26,6 +26,7 @@ public:
     void inserirNovoElemento(Cliente *pCliente);
     int excluirElemento(unsigned int codigoDoCliente);
     void atualizarElemento(Cliente *pClienteExistente, unsigned int Codigo);
+    void inserirPedido(Venda *pPedido, unsigned int IDCliente);
 
     unsigned int gerarID();
     unsigned int gerarIDVenda(unsigned int IDCliente);
