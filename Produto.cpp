@@ -56,7 +56,7 @@ double Produto::getPrecoTotal() const
 
 QString Produto::print() const
 {
-    return QString::number(getCodigo()) + "\n" + getDescricao() + "\n" + QString::number(getQuantidade()) + "\n" + QString::number(getPrecoUnitario());
+    return QString::number(getCodigo()) + "\n" + getDescricao() + "\n" + QString::number(getQuantidade()) + "\n" + QString::number(getPrecoUnitario()) + "\n";
 }
 
 Produto::Produto(QString desc, unsigned int qtde, float precoUn)

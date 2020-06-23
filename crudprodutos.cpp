@@ -63,7 +63,7 @@ Produto *CRUDProdutos::montar(std::string linha)
 
 std::string CRUDProdutos::desmontar(Produto *pProduto)
 {
-    QStringList list = pProduto->print().split('\n');
+    QStringList list = pProduto->print().split('\n', Qt::SkipEmptyParts);
     QString print = QString();
     for(int i = 0; i < list.size(); i++)
         print += list[i] + ";";
