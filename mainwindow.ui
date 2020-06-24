@@ -141,12 +141,19 @@
             </widget>
            </item>
            <item>
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Carrinho:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QTextEdit" name="textEdit">
              <property name="readOnly">
               <bool>true</bool>
              </property>
              <property name="placeholderText">
-              <string>Nenhum Pedido.     faltou pouco pra terminar essa parte =(</string>
+              <string>Adicione um Produto. </string>
              </property>
             </widget>
            </item>
@@ -214,6 +221,11 @@
             <column>
              <property name="text">
               <string>ID Cliente</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Cliente</string>
              </property>
             </column>
             <column>

@@ -27,12 +27,12 @@ void Produto::setDescricao(const QString &value)
     descricao = value;
 }
 
-unsigned int Produto::getQuantidade() const
+int Produto::getQuantidade() const
 {
     return quantidade;
 }
 
-void Produto::setQuantidade(unsigned int value)
+void Produto::setQuantidade(int value)
 {
     quantidade = value;
     precoTotal = (double)value * getPrecoUnitario();
@@ -59,7 +59,7 @@ QString Produto::print() const
     return QString::number(getCodigo()) + "\n" + getDescricao() + "\n" + QString::number(getQuantidade()) + "\n" + QString::number(getPrecoUnitario()) + "\n";
 }
 
-Produto::Produto(QString desc, unsigned int qtde, float precoUn)
+Produto::Produto(QString desc, int qtde, float precoUn)
 {
     descricao = desc;
     quantidade = qtde;

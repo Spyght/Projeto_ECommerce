@@ -11,7 +11,11 @@ Venda::Venda():
 Venda::Venda(QString dataCompra)
 {
     setDataCompra(dataCompra);
-
+    try {
+        pListaDeProdutos = new jose::LDEC<Produto *>;
+    } catch (std::bad_alloc &) {
+        throw QString("Erro: Falta de memória. Elemento não inserido.");
+    }
 }
 
 unsigned int Venda::getIdPedido() const

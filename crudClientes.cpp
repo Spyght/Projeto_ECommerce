@@ -84,11 +84,11 @@ Cliente *CRUDClientes::montar(std::string linha)
 
 Venda *CRUDClientes::montarVenda(std::string linha)
 {
-    QStringList list = QString::fromStdString(linha).split(';');
+    QStringList list = QString::fromStdString(linha).split(';', Qt::SkipEmptyParts);
     Venda * pVendas = new Venda(list[2]);
     pVendas->setIdPedido(list[0].toUInt());
     pVendas->setIdCliente(list[1].toUInt());
-    for(int i = 3; i < list.size(); i+=5){
+    for(int i = 3; i < list.size(); i+=4){
         QString s = list[i] + ";" + list[i + 1] + ";" + list[i + 2] + ";" + list[i + 3] + ";";
         pVendas->getPListaDeProdutos()->inserirFim(CRUDProdutos::montar(s.toStdString()));
     }
@@ -107,7 +107,7 @@ std::string CRUDClientes::desmontar(Cliente *pCliente)
 
 std::string CRUDClientes::desmontarVenda(Venda *pVenda)
 {
-    QStringList list = pVenda->print().split('\n');
+    QStringList list = pVenda->print().split('\n', Qt::SkipEmptyParts);
     QString print = QString();
     for(int i = 0; i < list.size(); i++)
         print += list[i] + ";";
@@ -191,12 +191,12 @@ void CRUDClientes::atualizarElemento(Cliente *pClienteExistente, unsigned int co
 
 void CRUDClientes::inserirPedido(Venda *pPedido, unsigned int IDCliente)
 {
-    pPedido->setIdPedido(gerarIDVenda(IDCliente));
+    pPedido->setIdPedido(gerarIDVenda());
     pPedido->setIdCliente(IDCliente);
 
     for(int i = 0; i < pEstoque->getQuantidade(); i++)
     {
-        if(pEstoque->operator[](i+ 1)->getId() == IDCliente){
+        if(pEstoque->operator[](i+ 1)->getId() == IDCliente){            
 
             std::ofstream arquivo;
             arquivo.open(nomeDoAtquivoDeVendas.toStdString().c_str(), std::ios::out | std::ios::app);
@@ -207,6 +207,7 @@ void CRUDClientes::inserirPedido(Venda *pPedido, unsigned int IDCliente)
             arquivo.close();
 
             pEstoque->operator[](i + 1)->getPVendas()->inserirFim(pPedido);
+
             break;
             }
     }
@@ -230,27 +231,19 @@ unsigned int CRUDClientes::gerarID()
     return i;
 }
 
-unsigned int CRUDClientes::gerarIDVenda(unsigned int IDCliente)
+unsigned int CRUDClientes::gerarIDVenda()
 {
+    int i = 1;
     for(int k = 1; k <= pEstoque->getQuantidade(); k++){
-        if(pEstoque->operator[](k)->getId() == IDCliente){
-            int i = 1;
-            for(; i <= pEstoque->operator[](k)->getPVendas()->getQuantidade(); i++){
-                for(int j = 0; j < pEstoque->operator[](k)->getPVendas()->getQuantidade(); j++){
-                    if(pEstoque->operator[](k)->getPVendas()->operator[](j + 1)->getIdPedido() == unsigned(i)){
-                        break;
-                    }
-                    else{
-                        if (j == getPEstoque()->getQuantidade() - 1){
-                            return i;
-                        }
-                    }
-                }
+        for(int j = 1; j <= pEstoque->operator[](k)->getPVendas()->getQuantidade(); j++){
+            if(pEstoque->operator[](k)->getPVendas()->operator[](j)->getIdPedido() == unsigned(i)){
+                i++;
+                k = 0;
+                break;
             }
-            return i;
         }
     }
-    return 0;
+    return i;
 }
 
 } // namespace mrjp

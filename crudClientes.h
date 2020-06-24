@@ -29,7 +29,7 @@ public:
     void inserirPedido(Venda *pPedido, unsigned int IDCliente);
 
     unsigned int gerarID();
-    unsigned int gerarIDVenda(unsigned int IDCliente);
+    unsigned int gerarIDVenda();
 
     jose::LDEC<Cliente *> *getPEstoque() const;
 //    void setPEstoque(jose::LDEC<Cliente *> *value);

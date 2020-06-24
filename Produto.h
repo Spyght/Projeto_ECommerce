@@ -8,7 +8,7 @@ class Produto
 {
 public:
     Produto();
-    Produto(QString descricao, unsigned int quantidade, float precoUnitario);
+    Produto(QString descricao, int quantidade, float precoUnitario);
 
     unsigned int getCodigo() const;
     void setCodigo(unsigned int value);
@@ -16,8 +16,8 @@ public:
     QString getDescricao() const;
     void setDescricao(const QString &value);
 
-    unsigned int getQuantidade() const;
-    void setQuantidade(unsigned int value);
+    int getQuantidade() const;
+    void setQuantidade(int value);
 
     float getPrecoUnitario() const;
     void setPrecoUnitario(float value);
@@ -29,7 +29,7 @@ public:
 private:
     unsigned int codigo;
     QString descricao;
-    unsigned int quantidade;
+    int quantidade;
     float precoUnitario;
     double precoTotal;
 };

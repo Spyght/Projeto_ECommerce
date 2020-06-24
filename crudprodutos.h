@@ -20,7 +20,7 @@ public:
 
     void inserirNovoElemento(Produto *pProduto);
     int excluirElemento(unsigned int codigoDoProduto);
-    void atualizarElemento(Produto *pProdutoExistente, unsigned int Codigo);
+    void atualizarElemento(Produto *pProdutoExistente, unsigned int CodigoDoProduto);
 
     unsigned int gerarID();
 

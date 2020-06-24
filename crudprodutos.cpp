@@ -139,8 +139,8 @@ void CRUDProdutos::atualizarElemento(Produto *pProdutoExistente, unsigned int co
             getPEstoque()->inserirFim(pProdutoExistente);
             break;
         }
-        if(i == pEstoque->getQuantidade() - 1)
-            inserirNovoElemento(pProdutoExistente); //se nao existir nenhum elemento igual, cria um novo
+        /*if(i == pEstoque->getQuantidade() - 1)
+            inserirNovoElemento(pProdutoExistente);*/ //se nao existir nenhum elemento igual, cria um novo
     }
 }
 

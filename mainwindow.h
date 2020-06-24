@@ -25,9 +25,11 @@ public:
     void clearTextEstoque2();
     void blockEstoqueEdit2();
     void freeEstoqueEdit2();
+    void printListProducts();
 
     QString imprimirProduto(mrjp::Produto *);
-//    bool isLabelsEmpty();
+    int isLabelsEmpty1();
+    int isLabelsEmpty2();
 
 private slots:
     void on_pushButtonAddEstoque_clicked();
@@ -84,6 +86,14 @@ private slots:
 
     void on_pushButtonMostrarLista_3_clicked();
 
+    void on_textEdit_textChanged();
+
+    void on_comboBoxClientes_activated(int index);
+
+    void on_tabWidget_currentChanged(int index);
+
+    void on_comboBoxClientes_currentIndexChanged(int index);
+
 private:
     Ui::MainWindow *ui;
     mrjp::CRUDProdutos *pCRUDProdutos;
@@ -91,6 +101,10 @@ private:
     mrjp::CRUDClientes *pCRUDClientes;
 
     jose::LDEC<mrjp::Produto *> * pListaDeProdutos;
+    jose::LDEC<mrjp::Produto *> * pListaNovoEstoque;
+
+    int row;
+    int column;
 //    mrjp::CRUD *pCRUD;
 };
 #endif // MAINWINDOW_H
