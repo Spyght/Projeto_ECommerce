@@ -351,7 +351,7 @@ void MainWindow::on_pushButtonConfirmar_2_clicked()
                             pCRUDClientes->excluirElemento(ui->spinBoxCodEstoque_2->value());
                         else {
                             mrjp::Cliente * pAux = new mrjp::Cliente(ui->lineEditDescricaoEstoque_2->text(),
-                                                                     ui->lineEditEndereco->text(),ui->spinBoxCliente->value(),ui->lineEditCpf->text().toUInt());
+                                                                     ui->lineEditEndereco->text(),ui->spinBoxCliente->value(),ui->lineEditCpf->text().toULongLong());
                             if(ui->spinBoxCodEstoque_2->value() == 0){
                                 pCRUDClientes->inserirNovoElemento(pAux);
                             }

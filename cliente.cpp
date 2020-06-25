@@ -2,7 +2,7 @@
 
 namespace mrjp {
 
-Cliente::Cliente(QString nome,QString endereco,unsigned int telefone, unsigned int cpf)
+Cliente::Cliente(QString nome, QString endereco, unsigned int telefone, unsigned long long cpf)
 {
     try {
         pVendas = new jose::LDEC<Venda *>;
@@ -39,7 +39,7 @@ void Cliente::setEndereco(const QString &value)
     endereco = value;
 }
 
-void Cliente::setCpf(unsigned int value)
+void Cliente::setCpf(unsigned long long value)
 {
     cpf = value;
 }
@@ -74,7 +74,7 @@ unsigned int Cliente::getTelefone() const
     return telefone;
 }
 
-unsigned int Cliente::getCpf() const
+unsigned long long Cliente::getCpf() const
 {
     return cpf;
 }

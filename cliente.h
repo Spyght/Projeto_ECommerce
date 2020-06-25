@@ -10,7 +10,7 @@ namespace mrjp {
 class Cliente
 {
 public:
-    Cliente(QString nome,QString endereco,unsigned int telefone, unsigned int cpf);
+    Cliente(QString nome, QString endereco, unsigned int telefone, unsigned long long cpf);
 
     void setTelefone(unsigned int value);
 
@@ -18,7 +18,7 @@ public:
 
     void setEndereco(const QString &value);
 
-    void setCpf(unsigned int value);
+    void setCpf(unsigned long long value);
 
     QString print ()const;
 
@@ -32,7 +32,7 @@ public:
 
     unsigned int getTelefone() const;
 
-    unsigned int getCpf() const;
+    unsigned long long getCpf() const;
 
     jose::LDEC<Venda *> *getPVendas() const;
     void setPVendas(jose::LDEC<Venda *> *value);
@@ -43,7 +43,7 @@ private:
     QString nome;
     QString endereco;
     unsigned int telefone;
-    unsigned int cpf;
+    unsigned long long cpf;
 
 };
 
