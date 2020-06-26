@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableWidgetEstoque_3->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
     ui->tableWidgetEstoque_3->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);
     ui->tableWidgetEstoque_3->horizontalHeader()->setSectionResizeMode(3,QHeaderView::ResizeToContents);
+    ui->tableWidgetEstoque_3->horizontalHeader()->setSectionResizeMode(4,QHeaderView::ResizeToContents);
 
     pCRUDProdutos = new mrjp::CRUDProdutos("estoque.txt");
     pCRUDProdutos->criarLista();
@@ -83,6 +84,11 @@ MainWindow::MainWindow(QWidget *parent)
             item = new QTableWidgetItem(list[2]);
             ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,3,item);
             item->setTextAlignment(Qt::AlignCenter);
+
+//            item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
+//            ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
+//            item->setTextAlignment(Qt::AlignCenter);
+
         }
     }
     ui->tableWidgetEstoque_3->setSortingEnabled(1);
@@ -347,8 +353,14 @@ void MainWindow::on_pushButtonConfirmar_2_clicked()
                 if(isLabelsEmpty2() == 3)
                     QMessageBox::information(this,"Campo vazio","Campo \"CPF\" vazio");
                     else{
-                        if(ui->lineEditDescricaoEstoque_2->isReadOnly())
-                            pCRUDClientes->excluirElemento(ui->spinBoxCodEstoque_2->value());
+                        if(ui->lineEditDescricaoEstoque_2->isReadOnly()){
+                            if(!pCRUDClientes->getPEstoque()->operator[](ui->spinBoxCodEstoque_2->value())->getPVendas()->getQuantidade())
+                                pCRUDClientes->excluirElemento(ui->spinBoxCodEstoque_2->value());
+                            else{
+                                QMessageBox::information(this,"Pedido Pendente","Você não pode excluir Clientes com Pedido pendente");
+                                return;
+                            }
+                        }
                         else {
                             mrjp::Cliente * pAux = new mrjp::Cliente(ui->lineEditDescricaoEstoque_2->text(),
                                                                      ui->lineEditEndereco->text(),ui->spinBoxCliente->value(),ui->lineEditCpf->text().toULongLong());
@@ -561,13 +573,22 @@ void MainWindow::on_tableWidgetEstoque_3_cellDoubleClicked(int row, int column)
 {
     this->row = row;
     this->column = column;
-//    QString cod = ui->tableWidgetEstoque_2->item(row, 0)->text();
-//    for(int i = 0; i < pCRUDClientes->getPEstoque()->)
-    ui->comboBoxClientes->setEnabled(1);
-    ui->pushButtonNovoPedido->setEnabled(1);
-    ui->comboBoxClientes->setCurrentIndex(row);
-    ui->comboBoxClientes->currentIndexChanged(row);
-    ui->qFrameVendas->show();
+    unsigned int cod = ui->tableWidgetEstoque_3->item(row, 1)->text().toUInt(); //identificando qual id foi clicado da tabela
+
+    for(int i = 0; i < pCRUDClientes->getPEstoque()->getQuantidade(); i++){
+        if(pCRUDClientes->getPEstoque()->operator[](i + 1)->getId() == cod){
+            ui->comboBoxClientes->setEnabled(1);
+            ui->pushButtonNovoPedido->setEnabled(1);
+            ui->comboBoxClientes->setCurrentIndex(i);
+            ui->comboBoxClientes->currentIndexChanged(i);
+            ui->qFrameVendas->show();
+            break;
+        }
+        if(i == pCRUDClientes->getPEstoque()->getQuantidade() - 1){
+            QMessageBox::information(this,"Cliente não encontrado","Cliente " + ui->tableWidgetEstoque_3->item(row, 2)->text() + " não foi encontrado no registro");
+            //tratar exceção de quando o cliente foi deletado (ou nao encontrado)
+        }
+    }
 //    ui->textEdit->setText(pCRUDClientes->getPEstoque()->operator[](1)->getPVendas()->operator[](1)->print());
 }
 
@@ -703,6 +724,11 @@ void MainWindow::on_pushButtonMostrarLista_3_clicked()
             item = new QTableWidgetItem(list[2]);
             ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,3,item);
             item->setTextAlignment(Qt::AlignCenter);
+
+//            item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
+//            ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
+//            item->setTextAlignment(Qt::AlignCenter);
+
         }
     }
     ui->tableWidgetEstoque_3->setSortingEnabled(1);
@@ -773,6 +799,11 @@ void MainWindow::on_tabWidget_currentChanged(int index)
                 item = new QTableWidgetItem(list[2]);
                 ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,3,item);
                 item->setTextAlignment(Qt::AlignCenter);
+
+//                item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
+//                ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
+//                item->setTextAlignment(Qt::AlignCenter);
+
             }
         }
         ui->tableWidgetEstoque_3->setSortingEnabled(1);
@@ -786,6 +817,7 @@ void MainWindow::on_comboBoxClientes_currentIndexChanged(int index)
         QString s = QString();
         for(int i = 1; i <= pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->getQuantidade(); i++){
             s += "<b>ID da Venda:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getIdPedido()) + "<br>";
+//                    + "<b> - valor total:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getValorTotalDaCompra()) + "<br>";
             for (int j = 1; j <= pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getPListaDeProdutos()->getQuantidade(); j++) {
                 s += imprimirProduto(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getPListaDeProdutos()->operator[](j));
             }

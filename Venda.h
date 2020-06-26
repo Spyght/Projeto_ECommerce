@@ -24,7 +24,6 @@ public:
     void setPListaDeProdutos(jose::LDEC<Produto *> *value);
 
     double getValorTotalDaCompra();
-    void setValorTotalDaCompra();
 
     QString print()const;
 
@@ -32,7 +31,6 @@ private:
     unsigned int idPedido;
     unsigned int idCliente;
     QString dataCompra;
-    double valorTotalDaCompra;
     jose::LDEC<Produto*> * pListaDeProdutos;
 };
 

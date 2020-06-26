@@ -2,8 +2,7 @@
 
 namespace mrjp {
 
-Venda::Venda():
-    valorTotalDaCompra(0)
+Venda::Venda()
 {
 
 }
@@ -60,16 +59,11 @@ void Venda::setPListaDeProdutos(jose::LDEC<Produto *> *value)
 
 double Venda::getValorTotalDaCompra()
 {
-    return valorTotalDaCompra;
-}
-
-void Venda::setValorTotalDaCompra()
-{
     double aux = 0;
     for(int i = 0; i < getPListaDeProdutos()->getQuantidade(); i++){
         aux += getPListaDeProdutos()->operator[](i + 1)->getPrecoTotal();
     }
-    valorTotalDaCompra = aux;
+    return aux;
 }
 
 QString Venda::print() const
