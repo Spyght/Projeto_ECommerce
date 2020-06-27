@@ -10,9 +10,9 @@ namespace mrjp {
 class Cliente
 {
 public:
-    Cliente(QString nome, QString endereco, unsigned int telefone, unsigned long long cpf);
+    Cliente(QString nome, QString endereco, unsigned long telefone, unsigned long long cpf);
 
-    void setTelefone(unsigned int value);
+    void setTelefone(unsigned long value);
 
     void setNome(const QString &value);
 
@@ -22,7 +22,6 @@ public:
 
     QString print ()const;
 
-
     unsigned int getId() const;
     void setId(unsigned int value);
 
@@ -30,7 +29,7 @@ public:
 
     QString getEndereco() const;
 
-    unsigned int getTelefone() const;
+    unsigned long getTelefone() const;
 
     unsigned long long getCpf() const;
 
@@ -42,7 +41,7 @@ private:
     unsigned int id;
     QString nome;
     QString endereco;
-    unsigned int telefone;
+    unsigned long telefone;
     unsigned long long cpf;
 
 };

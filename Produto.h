@@ -26,6 +26,7 @@ public:
 
     QString print() const;
 
+
 private:
     unsigned int codigo;
     QString descricao;

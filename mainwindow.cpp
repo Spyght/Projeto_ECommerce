@@ -82,12 +82,14 @@ MainWindow::MainWindow(QWidget *parent)
             item->setTextAlignment(Qt::AlignCenter);
 
             item = new QTableWidgetItem(list[2]);
+            if(QDate::currentDate() > QDate::fromString(list[2],Qt::SystemLocaleShortDate)) //checando se a data da venda esta vencida
+                item->setForeground(Qt::red);
             ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,3,item);
             item->setTextAlignment(Qt::AlignCenter);
 
-//            item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
-//            ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
-//            item->setTextAlignment(Qt::AlignCenter);
+            item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
+            ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
+            item->setTextAlignment(Qt::AlignCenter);
 
         }
     }
@@ -166,7 +168,7 @@ void MainWindow::on_pushButtonConfirmar_clicked()
                 blockEstoqueEdit();
             }
         }
-    } catch (QString &erro) {
+    } catch (QString erro) {
         QMessageBox::information(this,"Erro",erro);
     }
 }
@@ -303,7 +305,10 @@ QString MainWindow::imprimirProduto(mrjp::Produto * pProduto)
     QString s = "<b>Código do Produto: </b>" + list[0] + "<br>"
             + "<b>Descrição:</b> " + list[1] + "<br>"
             + "<b>Quantidade:</b> " + list[2] + "<br>"
-            + "<b>Preço Unitário:</b> " + list[3] + "<br><br>";
+            + "<b>Preço Unitário:</b> " + list[3] + "<br>";
+    if(pProduto->getQuantidade() > 1)
+        s += "<b><i>Subtotal:</b> <i>" + QString::number(pProduto->getPrecoTotal()) + "</i><br>";
+    s += "<br>";
     return s;
 
 }
@@ -378,7 +383,7 @@ void MainWindow::on_pushButtonConfirmar_2_clicked()
             }
         }
 
-    } catch (QString &erro) {
+    } catch (QString erro) {
         QMessageBox::information(this,"Erro",erro);
     }
 }
@@ -610,38 +615,44 @@ void MainWindow::on_pushButtonCancelarPedido_clicked()
 void MainWindow::on_pushButtonConfirmarPedido_clicked()
 {
     try {
-        mrjp::Venda * pAux = new mrjp::Venda(ui->dateEdit->text());
-        while(pListaDeProdutos->getQuantidade() > 0){
-            pAux->getPListaDeProdutos()->inserirFim(pListaDeProdutos->retirarInicio());
+        QMessageBox msgBox;
+        msgBox.setText("<b>A compra não poderá ser apagada.</b><br>Deseja continuar?");
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDetailedText(ui->textEdit->toPlainText());
+        int answer = msgBox.exec();
+//        int answer = QMessageBox::question(this,"Confirmar Venda",ui->textEdit->toPlainText());
+        if(answer == QMessageBox::Yes){
+            mrjp::Venda * pAux = new mrjp::Venda(ui->dateEdit->text());
+            while(pListaDeProdutos->getQuantidade() > 0){
+                pAux->getPListaDeProdutos()->inserirFim(pListaDeProdutos->retirarInicio());
+            }
+            pCRUDClientes->inserirPedido(pAux, pCRUDClientes->getPEstoque()->operator[](ui->comboBoxClientes->currentIndex() + 1)->getId());
+
+            while(pListaNovoEstoque->getQuantidade()>0)
+                pCRUDProdutos->atualizarElemento(pListaNovoEstoque->retirarFim()
+                                                 ,pCRUDProdutos->getPEstoque()->operator[](pListaNovoEstoque->getQuantidade())->getCodigo());
+            ui->pushButtonMostrarLista_3->click();
+            ui->comboBoxClientes->setEnabled(1);
+            ui->pushButtonNovoPedido->setEnabled(1);
+            ui->qGBPedido->hide();
+            ui->qGBOpcoes->hide();
+
+
+            ui->comboBoxClientes->clear();
+            ui->comboBoxProdutos->clear();
+            for(int i = 0; i < pCRUDClientes->getPEstoque()->getQuantidade(); i++){
+                QStringList list = QString::fromStdString(pCRUDClientes->desmontar(pCRUDClientes->getPEstoque()->operator[](i + 1))).split(';');
+                ui->comboBoxClientes->insertItem(i,list[0] + " - " + list[1]);
+            }
+
+            for(int i = 0; i < pCRUDProdutos->getPEstoque()->getQuantidade(); i++){
+                QStringList list = QString::fromStdString(pCRUDProdutos->desmontar(pCRUDProdutos->getPEstoque()->operator[](i + 1))).split(';');
+                ui->comboBoxProdutos->insertItem(i,list[0] + " - " + list[1]);
+            }
         }
-        pCRUDClientes->inserirPedido(pAux, pCRUDClientes->getPEstoque()->operator[](ui->comboBoxClientes->currentIndex() + 1)->getId());
-
-        while(pListaNovoEstoque->getQuantidade()>0)
-            pCRUDProdutos->atualizarElemento(pListaNovoEstoque->retirarFim()
-                                             ,pCRUDProdutos->getPEstoque()->operator[](pListaNovoEstoque->getQuantidade())->getCodigo());
-        ui->pushButtonMostrarLista_3->click();
-        ui->comboBoxClientes->setEnabled(1);
-        ui->pushButtonNovoPedido->setEnabled(1);
-        ui->qGBPedido->hide();
-        ui->qGBOpcoes->hide();
-
-
-        ui->comboBoxClientes->clear();
-        ui->comboBoxProdutos->clear();
-        for(int i = 0; i < pCRUDClientes->getPEstoque()->getQuantidade(); i++){
-            QStringList list = QString::fromStdString(pCRUDClientes->desmontar(pCRUDClientes->getPEstoque()->operator[](i + 1))).split(';');
-            ui->comboBoxClientes->insertItem(i,list[0] + " - " + list[1]);
-        }
-
-        for(int i = 0; i < pCRUDProdutos->getPEstoque()->getQuantidade(); i++){
-            QStringList list = QString::fromStdString(pCRUDProdutos->desmontar(pCRUDProdutos->getPEstoque()->operator[](i + 1))).split(';');
-            ui->comboBoxProdutos->insertItem(i,list[0] + " - " + list[1]);
-        }
-    } catch (QString &erro) {
+    } catch (QString erro) {
         QMessageBox::information(this,"Erro ao confirmar Venda",erro);
     }
-
-
 }
 
 void MainWindow::on_pushButtonAdd_clicked()
@@ -725,9 +736,9 @@ void MainWindow::on_pushButtonMostrarLista_3_clicked()
             ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,3,item);
             item->setTextAlignment(Qt::AlignCenter);
 
-//            item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
-//            ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
-//            item->setTextAlignment(Qt::AlignCenter);
+            item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
+            ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
+            item->setTextAlignment(Qt::AlignCenter);
 
         }
     }
@@ -748,7 +759,8 @@ void MainWindow::on_comboBoxClientes_activated(int index)
         index++;
         QString s = QString();
         for(int i = 1; i <= pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->getQuantidade(); i++){
-            s += "<b>ID da Venda:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getIdPedido()) + "<br>";
+            s += "<b>ID da Venda:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getIdPedido())
+                    + "<b> - valor total:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getValorTotalDaCompra()) + "<br>";
             for (int j = 1; j <= pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getPListaDeProdutos()->getQuantidade(); j++) {
                 s += imprimirProduto(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getPListaDeProdutos()->operator[](j));
             }
@@ -800,9 +812,9 @@ void MainWindow::on_tabWidget_currentChanged(int index)
                 ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,3,item);
                 item->setTextAlignment(Qt::AlignCenter);
 
-//                item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
-//                ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
-//                item->setTextAlignment(Qt::AlignCenter);
+                item = new QTableWidgetItem(QString::number(pCRUDClientes->getPEstoque()->operator[](i)->getPVendas()->operator[](j)->getValorTotalDaCompra()));
+                ui->tableWidgetEstoque_3->setItem(ui->tableWidgetEstoque_3->rowCount() - 1,4,item);
+                item->setTextAlignment(Qt::AlignCenter);
 
             }
         }
@@ -816,8 +828,8 @@ void MainWindow::on_comboBoxClientes_currentIndexChanged(int index)
         index++;
         QString s = QString();
         for(int i = 1; i <= pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->getQuantidade(); i++){
-            s += "<b>ID da Venda:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getIdPedido()) + "<br>";
-//                    + "<b> - valor total:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getValorTotalDaCompra()) + "<br>";
+            s += "<b>ID da Venda:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getIdPedido())
+                    + "<b> - valor total:</b> " + QString::number(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getValorTotalDaCompra()) + "<br>";
             for (int j = 1; j <= pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getPListaDeProdutos()->getQuantidade(); j++) {
                 s += imprimirProduto(pCRUDClientes->getPEstoque()->operator[](index)->getPVendas()->operator[](i)->getPListaDeProdutos()->operator[](j));
             }

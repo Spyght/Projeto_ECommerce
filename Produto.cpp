@@ -61,9 +61,9 @@ QString Produto::print() const
 
 Produto::Produto(QString desc, int qtde, float precoUn)
 {
-    descricao = desc;
-    quantidade = qtde;
-    precoUnitario = precoUn;
+    setDescricao (desc);
+    setQuantidade (qtde);
+    setPrecoUnitario(precoUn);
 }
 
 }

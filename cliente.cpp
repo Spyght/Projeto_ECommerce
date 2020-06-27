@@ -2,7 +2,7 @@
 
 namespace mrjp {
 
-Cliente::Cliente(QString nome, QString endereco, unsigned int telefone, unsigned long long cpf)
+Cliente::Cliente(QString nome, QString endereco, unsigned long telefone, unsigned long long cpf)
 {
     try {
         pVendas = new jose::LDEC<Venda *>;
@@ -10,19 +10,25 @@ Cliente::Cliente(QString nome, QString endereco, unsigned int telefone, unsigned
         throw QString("Erro: Falta de memória. Elemento não inserido.");
     }
     setNome(nome);
-    setEndereco(endereco);
+    setEndereco (endereco);
     setTelefone(telefone);
     setCpf(cpf);
 }
 
-void Cliente::setTelefone(unsigned int value)
+void Cliente::setTelefone(unsigned long value)
 {
     // verificando a validade do telefone.
-//    QString verificador = QString::number( value);
-//    if( verificador.length() >8 || verificador.length() < 9 ){
-//        throw "Numero invalido";
-//    }else
-       telefone = value;
+    QString verificador = QString::number(value);
+    if( verificador.length() < 8 /*|| (verificador.length() == 10 || verificador.length() > 11*/){
+        throw QString("Número de telefone inválido");
+    } else {
+        if(verificador.size() == 8)
+            verificador.prepend("9");
+        else verificador.replace(0,1,"9");
+//        if(verificador.size() == 9)
+//            verificador.prepend("62");
+        telefone = verificador.toULong();
+    }
 }
 
 void Cliente::setNome(const QString &value)
@@ -69,7 +75,7 @@ QString Cliente::getEndereco() const
     return endereco;
 }
 
-unsigned int Cliente::getTelefone() const
+unsigned long Cliente::getTelefone() const
 {
     return telefone;
 }
